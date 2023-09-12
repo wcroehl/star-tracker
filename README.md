@@ -6,5 +6,3 @@ Contributors include:
   - Jun Maruyama
   - Heemin Seo
   - William Roehl
-
-This is a test
