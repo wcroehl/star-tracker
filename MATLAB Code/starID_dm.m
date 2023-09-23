@@ -14,7 +14,7 @@ function [t, id_count ,ret_fun] = starID_dm(t, q0, nstar, id_count, cctime, w, c
       fprintf("DM: t = %15.6f  w: %12.8f %12.8f %12.8f\n", t, w(1), w(2), w(1));
    end
 
-   Mp = dmt_atti(w, q0);
+   Mp = dmt_atti(w, q0,T_B);
    
    [c_star, obs_ra, obs_dec, obs_mag, m_star, crf, rtn] = in_order(crf_count, nstar, Mp, x, y, xmag,  m_star, crf) ;
    if (rtn ~= 1)

@@ -1,12 +1,12 @@
 % void dmt_atti(w, q0, Mp)  /* propagate attitude using the gyro meas. */ 
-function Mp = dmt_atti(w, q0)  % propagate attitude using the gyro meas. % 
+function Mp = dmt_atti(w, q0,T_B)  % propagate attitude using the gyro meas. % 
 % double w[3], q0[4], Mp[3][3] ;
 %  {
 %  int     i, j, k ;
 %  double  w_mag, n_hat[3], cwt, swt, qp[4], Ap[3][3] ;
 
 T_STEP_GYRO = 0.1;
-T_B = [1 0 0;0 1 0;0 0 1];
+%T_B = [1 0 0;0 1 0;0 0 1]; remove, 09/23/23
 
  w_mag = sqrt(w(1)*w(1)+w(2)*w(2)+w(3)*w(3)) ;
  for(i=1:3)  n_hat(i) = w(i)/w_mag ; end
