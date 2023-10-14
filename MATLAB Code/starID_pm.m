@@ -33,8 +33,8 @@ end
 BD = cartesian(est_alp*pi/180, est_del*pi/180);  %CHECKED
 for i=1:1:adjcell(nb_cell).num_adj
     cellnum = adjcell(nb_cell).cell_num(i)-1; % read adjacent cell # 
-    for j=1:1:scell(cellnum).num_stars % read all stars in the cell 
-        starnum = scell(cellnum).star_num(j); %catalog 
+    for j=1:1:scell(cellnum+1).num_stars % read all stars in the cell 
+        starnum = scell(cellnum+1).star_num(j); %catalog 
         al_rad = stars(starnum).ra  / 180 * pi ;  % RA  in radian 
         de_rad = stars(starnum).dec / 180 * pi ;  % Dec in radian 
         L = cartesian(al_rad,de_rad) ;  % get star pos. in cartesian 
