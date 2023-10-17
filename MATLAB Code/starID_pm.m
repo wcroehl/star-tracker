@@ -85,17 +85,17 @@ if (esignal < 3)
         switch(nstar)
             case 6  
                 [NEWBLI, jj, esignal] = on6stars(ij, esignal, m_star, BLI, NEWBLI);
-                break ;
+                %break ;
             case 5  
                 [NEWBLI, jj, esignal] = on5stars(ij, esignal, m_star, BLI, NEWBLI);
-                break ;
+                %break ;
             case 4 
                 [NEWBLI, jj, esignal] = on4stars(ij, esignal, m_star, BLI, NEWBLI);  % CHECKED
                   
                 %add fprintf, 07/28/23
                 fprintf(outes2, '%15.6f %15.6f %15.6f \n',t, jj, esignal);
 
-                break ;
+                %break ;
             case 3 
                 [NEWBLI, jj, esignal] = on3stars(ij, esignal, m_star, BLI, NEWBLI);
         end
