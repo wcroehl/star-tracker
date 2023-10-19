@@ -1,4 +1,4 @@
-function [zsum, znum, b, q, t_old, P] = cuvf(t_new, t_old, t_elapse, qq, q, P, w, b, cnt, zsum, znum, ccdstep) %original one
+function [zsum, znum, b, q, t_old, P] = cuvf(t_new, t_old, t_elapse, qq, q, P, w, b, cnt, zsum, znum, ccdstep, crf, b_star) %original one
 %function [zsum, znum, b, q, t_old, P] = cuvf(t_new, t_old, t_elapse, qq, q, P, w, b, cnt, zsum, znum, ccdstep, crf)% add crf,08/25/23
 
 %int  cuvf(t_new, t_old, t_elapse, qq, q, P, w, b, cnt, zsum, znum, ccdstep)
@@ -175,7 +175,7 @@ for ic = 1:1:cnt
 %                 Q_k[i][i] = (s_a + s_r*ddel_t/3.0)*del_t ;
         qk_diag = (s_a + s_r*ddel_t/3.0)*del_t;
 
-        Q_k(1:3,1:3) = diag(qk_diag, qk_diag, qk_diag) ; %there is an issue, 08/25/23
+        Q_k(1:3,1:3) = diag([qk_diag, qk_diag, qk_diag]) ; %there is an issue, 08/25/23
 
         %new version suggesion code, 8/25/23
         %for i=1:1:3
@@ -201,7 +201,7 @@ for ic = 1:1:cnt
          %for i=1:1:3
              %Q_k(i+3,i+3)= s_r*del_t;
          %end
-         Q_k(4:6,4:6) = diag(s_r*del_t, s_r*del_t, s_r*del_t) ; %original code
+         Q_k(4:6,4:6) = diag([s_r*del_t, s_r*del_t, s_r*del_t]) ; %original code
 
 %       for(i=0;i<6;i++) for(j=0;j<6;j++) P_propa[i][j] += Q_k[i][j] ; 
         P_propa = P_propa + Q_k;
@@ -232,7 +232,7 @@ A_pro = q_to_A(q_propa);
 % for(i=0;i<3;i++) for(j=0;j<3;j++) W_pro[i] += A_pro[i][j] * crf[ic]->L[j] ;
 % antisym3(W_anti, W_pro) ;
 
-W_pro = A_pro* crf(ic).vec; %original code,08/25/23
+W_pro = A_pro* crf(ic).L; %original code,08/25/23
 
 %new version code, 08/25/23
 %W_pro = A_pro* crf(ic).L;
@@ -253,7 +253,7 @@ H(1:3,1:3) = W_anti;
 %         HPHT[i][j] += H[i][k]*PHT[k][j] ;
 
 PHT = zeros(6,3);
-PHT = P_pro*H; %original code,08/25/23
+PHT = P_pro*H'; %original code,08/25/23
 HPHT = H*PHT; 
 
 % /* matrix B */
@@ -302,7 +302,7 @@ I_KH = eye(6)-K*H; %(6,3)(3,6)
 P = I_KH*P_pro;
 P_new = P*I_KH;
 KR = K*R;
-P_pro = KR*K;
+P_pro = KR*K'; %or K*KR'
 
 % for(i=0;i<6;i++) if(P_pro[i][i] < 0.0 ) P_pro[i][i] = 0.0 ;
 % for(i=0;i<6;i++) for(j=0;j<6;j++)
@@ -328,7 +328,7 @@ znum = znum + 1;
 % for(i=0;i<6;i++) dx[i] = 0.0 ;
 % for(i=0;i<6;i++) for(j=0;j<3;j++) dx[i] += K[i][j]*z[j] ; 
 dx = zeros(6,1);
-dx(1:3) = K*z;
+dx = K*z;
 
 % temp = dx[0]*dx[0]+dx[1]*dx[1]+dx[2]*dx[2] ; 
 % coef = 1. / sqrt(1.+ temp/4.) ;   

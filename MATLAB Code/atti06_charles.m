@@ -13,6 +13,8 @@ tic
 znum = 0;
 zsum = 0;
 
+b_est_sum = [0,0,0];
+b_est_cnt = 0;
 % INPUT : Gyroscope 
 gyro = fopen("D:\StarTracker-20230706T212348Z-001\StarTracker\02_Check_structure\data\g_rate_lrs.dat", 'r'); 
 
@@ -366,7 +368,7 @@ while( ccd_time <= TIMELIMIT )
 		  b_est = b_est_average;
 % 		  cuvfout = cuvf(ccd_time, t_old, t_elapse, qq, q, P, w, b_est, cnt, zsum, znum, ccdstep); I dont like this
             % errors related to P happen below, 7/28/23
-            [zsum, znum, b_est, q, t_old, P] = cuvf(ccd_time, t_old, t_elapse, qq, q, P, w, b_est, cnt, zsum, znum, ccdstep); %original code
+            [zsum, znum, b_est, q, t_old, P] = cuvf(ccd_time, t_old, t_elapse, qq, q, P, w, b_est, cnt, zsum, znum, ccdstep, crf, b_star); %original code
             %[zsum, znum, b_est, q, t_old, P] = cuvf(ccd_time, t_old, t_elapse, qq, q, P, w, b_est, cnt, zsum, znum, ccdstep, crf); %add crf, 08/25/23
           cuvfout = 0;
 		  b_est_average = b_est;
