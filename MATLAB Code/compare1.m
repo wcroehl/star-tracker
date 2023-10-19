@@ -13,7 +13,10 @@ for i=ii:ij
     else
         ji = jj+1 ;
     end
-
+    if ji > ij
+        ji = ij;
+        break;
+    end
     for j=ji:ij
        cata_ang = acos( BLI(i).L(1)*BLI(j).L(1) + ...
                         BLI(i).L(2)*BLI(j).L(2) + ...

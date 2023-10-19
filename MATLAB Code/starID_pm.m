@@ -111,7 +111,7 @@ if (esignal < 3)
                 NEWBLI(i).id = -999 ;
                 NEWBLI(i).num = 0 ;
             end
-            [NEWBLI, ii, jj, esignal] = compare1(1, 2, ij, m_star, BLI, NEWBLI);
+            [NEWBLI, ii, jj, esignal] = compare1(1, 2, ii, jj, ij, m_star, BLI, NEWBLI);
             
             while (esignal == 3 && k < nro && ii == ij && jj == ij)
                 [x, y, xmag, m_star] = obs_ang(nstar, x, y, xmag, m_star);
