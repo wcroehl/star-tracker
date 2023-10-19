@@ -71,16 +71,16 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
                 switch count0
                     case 0
                         sig = 0 ; % No identified star is reported */
-                        break ;
+                        %break ;
                     case 1 
                         sig = 10; %New star : *find_num2  */
                         chosen_num = find_num2 ;
-                        break ;
+                        %break ;
                     otherwise
                         sig = 20; %Multiple candidates : to choose one */
                         chosen_num = multi_obs(t, (c_star+i), find_num2, count0) ; 
                 end
-                break;
+                %break;
                 
             case 1
                 sig = 1;
