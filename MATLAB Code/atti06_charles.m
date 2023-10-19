@@ -13,6 +13,8 @@ tic
 znum = 0;
 zsum = 0;
 
+b_est_sum = [0,0,0];
+b_est_cnt = 0;
 % INPUT : Gyroscope 
 gyro = fopen("D:\StarTracker-20230706T212348Z-001\StarTracker\02_Check_structure\data\g_rate_lrs.dat", 'r'); 
 
