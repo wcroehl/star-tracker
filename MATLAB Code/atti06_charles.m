@@ -11,10 +11,11 @@ tic
 
 %%% Lee
 znum = 0;
-zsum = 0;
+zsum = [0 0 0];
 
 b_est_sum = [0,0,0];
 b_est_cnt = 0;
+
 % INPUT : Gyroscope 
 gyro = fopen("D:\StarTracker-20230706T212348Z-001\StarTracker\02_Check_structure\data\g_rate_lrs.dat", 'r'); 
 
@@ -270,18 +271,18 @@ while( ccd_time <= TIMELIMIT )
     if (cnt >= 3)
         for i = 1:numel(crf)
             for j = 1:numel(crf(i).L)
-                W(i,j) = crf(i).L(j);
-                W(i,j+1) = crf(i).mag;
+                V(i,j) = crf(i).L(j);
+                V(i,j+1) = crf(i).mag;
                 
-                V(i,j) = b_star(i).L(j);
-                V(i,j+1) = b_star(i).mag;
+                W(i,j) = b_star(i).L(j);
+                W(i,j+1) = b_star(i).mag;
             end
         end
         
         %add fprintf, 07/28/23
         fprintf(outPT1, '%15.6f \n%.15f %.15f %.15f \n%.15f %.15f %.15f \n%.15f %.15f %.15f \n',ccd_time, P_theta);
 
-        [qq, P_theta, d_i, rtn] = q_method(V, W, nstar, d_i, outPT2, outPT3, ccd_time);% added outPT's and ccd_time, 07/28/23
+        [qq, P_theta, d_i, rtn] = q_method(W, V, nstar, d_i, outPT2, outPT3, ccd_time);% added outPT's and ccd_time, 07/28/23
 
         %qq = quest(W(1:3,:),V(1:3,:), ones(nstar,1)/nstar)
         
@@ -368,7 +369,7 @@ while( ccd_time <= TIMELIMIT )
 		  b_est = b_est_average;
 % 		  cuvfout = cuvf(ccd_time, t_old, t_elapse, qq, q, P, w, b_est, cnt, zsum, znum, ccdstep); I dont like this
             % errors related to P happen below, 7/28/23
-            [zsum, znum, b_est, q, t_old, P] = cuvf(ccd_time, t_old, t_elapse, qq, q, P, w, b_est, cnt, zsum, znum, ccdstep, crf, b_star); %original code
+          [zsum, znum, b_est, q, t_old, P] = cuvf(ccd_time, t_old, t_elapse, qq, q, P, w, b_est, cnt, zsum, znum, ccdstep, crf, b_star); %original code
             %[zsum, znum, b_est, q, t_old, P] = cuvf(ccd_time, t_old, t_elapse, qq, q, P, w, b_est, cnt, zsum, znum, ccdstep, crf); %add crf, 08/25/23
           cuvfout = 0;
 		  b_est_average = b_est;
@@ -577,15 +578,15 @@ while( ccd_time <= TIMELIMIT )
 	  if (nstar == -999) 
           break ; % 2nd break : 1st break occurred with no CCD data */
       end
-% 	  [t_gyro, w, u, gread] = read_gyro(b_est_average, gyro_meas, gyro_count);
-% 	  if (gread == 1)
-% 		  fprintf(stdout, "No more gyro data at %10.2f while IST data remains\n", ccd_time) ;
-% 		  if (ccd_time >= TIMELIMIT)
-% 			  fprintf(outgbias, "%15ld  %15.5f  %15.5f  %15.5f\n", b_est_cnt, b_est_sum/b_est_cnt*3600/PI*180.0);
-% 			  error(msg) ;
-%           end
-%       else
-%           error(msg) ;
+ 	  [t_gyro, w, u, gread] = read_gyro(b_est_average, gyro_meas, gyro_count);
+ 	  if (gread == 1)
+ 		  fprintf(stdout, "No more gyro data at %10.2f while IST data remains\n", ccd_time) ;
+ 		  if (ccd_time >= TIMELIMIT)
+ 			  fprintf(outgbias, "%15ld  %15.5f  %15.5f  %15.5f\n", b_est_cnt, b_est_sum/b_est_cnt*3600/PI*180.0);
+ 			  error(msg) ;
+          end
+          else
+          error(msg) ;
 %       end
 % 	  while (ccd_time - t_gyro) > 0.0001            
 % 		  pseudo_time = t_gyro ;
