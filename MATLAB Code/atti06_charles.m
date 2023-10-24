@@ -427,7 +427,7 @@ while( ccd_time <= TIMELIMIT )
             z_bar = z_bar/temp ;
             z = 2*z_bar; % 3 x 1 vector
             if (t_gyro > cctime)   % for QC
-                rmszsum = rmszsum + sqrt(z*z) ;
+                rmszsum = rmszsum + sqrt(z.*z) ;
                 rmszscalar = rmszscalar + sqrt(z_bar(4)*z_bar(4));
                 rmsznum = rmsznum + 1;
                 rmszlsum = rmszlsum + sqrt(z*z) ;
