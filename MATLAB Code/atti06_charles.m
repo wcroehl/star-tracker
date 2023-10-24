@@ -435,7 +435,7 @@ while( ccd_time <= TIMELIMIT )
                 rmszsum = rmszsum + sqrt(z.*z) ;
                 rmszscalar = rmszscalar + sqrt(z_bar(4)*z_bar(4));
                 rmsznum = rmsznum + 1;
-                rmszlsum = rmszlsum + sqrt(z*z) ;
+                rmszlsum = rmszlsum + sqrt(z.*z) ;
                 rmszlscalar = rmszlscalar + sqrt(z_bar(4)*z_bar(4)) ;
                 rmszlnum = rmszlnum + 1;
             end
