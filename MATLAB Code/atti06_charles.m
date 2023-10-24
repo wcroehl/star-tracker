@@ -23,6 +23,10 @@ rmszsum = 0;
 rmszscalar = 0;
 rmsznum = 0;
 
+rmszlsum = 0;
+rmszlscalar = 0;
+rmszlnum = 0;
+
 % INPUT : Gyroscope 
 gyro = fopen("D:\StarTracker-20230706T212348Z-001\StarTracker\02_Check_structure\data\g_rate_lrs.dat", 'r'); 
 
