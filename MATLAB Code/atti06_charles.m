@@ -20,6 +20,7 @@ b_est_sum = [0,0,0];
 b_est_cnt = 0;
 
 rmszsum = 0;
+rmszscalar = 0;
 rmszlnum = 0;
 
 % INPUT : Gyroscope 
