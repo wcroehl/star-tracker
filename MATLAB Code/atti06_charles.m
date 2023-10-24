@@ -13,6 +13,9 @@ tic
 znum = 0;
 zsum = [0 0 0];
 
+rmsnum = 0;
+rmslnum = 0;
+
 b_est_sum = [0,0,0];
 b_est_cnt = 0;
 
