@@ -292,7 +292,6 @@ while( ccd_time <= TIMELIMIT )
 
         %qq = quest(W(1:3,:),V(1:3,:), ones(nstar,1)/nstar)
         
-        rtn = 0;
         if (rtn ~= 0)
 			  fprintf(stdout,"q_method() finished abnormally at %10.2f\n", ccd_time);
         end
@@ -353,8 +352,8 @@ while( ccd_time <= TIMELIMIT )
             end
             A = q_to_A(qq);
             qp = q;
+            q0 = qq;
             q = q0;
-            q0 = qq;    
 % 			  for(i=0;i<3;i++) for(j=0;j<3;j++) M[i][j] = 0.0 ;    
             M = zeros(3,3);
 % 			  for(i=0;i<3;i++) for(j=0;j<3;j++) for(k=0;k<3;k++)
@@ -395,8 +394,8 @@ while( ccd_time <= TIMELIMIT )
         if ccd_time < KF  
             w0 = w;
         end
-      
-		qp = q0; 
+
+		qp = q0;
         q0 = q;
 		A = q_to_A(qp) ;
 
@@ -541,7 +540,6 @@ while( ccd_time <= TIMELIMIT )
 		[rg,q0] = no_stars(q0, w) ; % change 7/14/23 
         %rg = no_stars(ccd_time, t_gyro, q0, w) ;% original code    %dont have
 		qp = q0;
-
 		q_to_A(qp, A) ;
 
 		M = zeros(3,3);
@@ -586,7 +584,7 @@ while( ccd_time <= TIMELIMIT )
     if (nstar == -999) 
         break; % 2nd break : 1st break occurred with no CCD data */
     end
- 	[t_gyro, w, u, gread] = read_gyro(b_est_average, gyro_meas, gyro_count);
+ 	[t_gyro, w, u, gread, gyro_count] = read_gyro(b_est_average, gyro_meas, gyro_count);
     if (gread == 1)
  	    fprintf(stdout, "No more gyro data at %10.2f while IST data remains\n", ccd_time);
         if (ccd_time >= TIMELIMIT)
@@ -628,10 +626,10 @@ while( ccd_time <= TIMELIMIT )
         fprintf(out1b,"  %15.12f",qp) ;
         fprintf(out1b,"\n") ;
         ID_loca = '3' ; id_ = 23 ;
- 		fprintf(qc,"%15.6f  %3d %6.2f\n", pseudo_time, QC1, atti_rms) ; stupid code
+ 		fprintf(qc,"%15.6f  %3d %6.2f\n", pseudo_time, QC1, atti_rms) ; %stupid code
         fprintf(outn,"%15.6f  %2d  %2d  %2d  %2d  %8.3f\n", pseudo_time, id_, 0, 0, consec, 0.0) ;
 		fprintf(outM,"%12.6f %3d\n%20.15f %20.15f %20.15f \n%20.15f %20.15f %20.15f \n% 20.15f %20.15f %20.15f \n", pseudo_time, QC1, M) ;
-        [t_gyro, w, u, gread] = read_gyro(b_est_average, gyro_meas, gyro_count) ;
+        [t_gyro, w, u, gread, gyro_count] = read_gyro(b_est_average, gyro_meas, gyro_count) ;
         
         if (gread == 1)
  		    fprintf(stdout,"No more gyro data. IST data may exist at %10.2f\n", t_gyro) ;

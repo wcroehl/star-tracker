@@ -24,6 +24,7 @@ function [zsum, znum, b, q, t_old, P] = cuvf(t_new, t_old, t_elapse, qq, q, P, w
 % 
 %   *znum = 0 ;
 %  for(i=0;i<3;i++) zsum[i] = 0.0 ;
+znum = 0;
 zsum = zeros(3,1);
 
 %%%%
