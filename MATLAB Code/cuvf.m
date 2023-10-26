@@ -351,7 +351,7 @@ q_sum = norm(q_new);
 q_new = q_new/q_sum;
 
 % for(i=0;i<3;i++) b[i] = b[i]+dx[i+3] ;
-b = b + dx(4:6);
+b = b + dx(4:6)';
 
 % for(i=0;i<4;i++) q[i] = q_new[i] ;
 % *t_old = t_new ;

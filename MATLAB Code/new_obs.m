@@ -142,6 +142,7 @@ function [rtn] = new_obs(t, t_start, t_end, count, candi_num, oldnum,...
       if(~(abs(ra_diff_BD) < BD_limit*3600+1800.) || ...
          ~((abs(ra_diff_new) < FOV_limit*3600+1800.) &&  i < floor(scell2(N_zone-1).num_stars/2.0))) break; end
  end
+ kkk=0;
   while(((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit*3600+1800.))... 
          &&  i < floor(scell2(N_zone-1).num_stars/2.0))
      
@@ -207,6 +208,12 @@ function [rtn] = new_obs(t, t_start, t_end, count, candi_num, oldnum,...
                i, scell2(N_zone-1).num_stars/2.0) ;
           end
        end
+     end
+     kkk=kkk+1;
+     if kkk > 500
+        i=8;
+        ra_diff_BD=BD_limit*3600+1800;
+        %keyboard
      end
   end
  thisnum = thisnum0 ;
