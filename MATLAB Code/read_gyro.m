@@ -1,5 +1,5 @@
 function [t_gyro, w, u, end_indicator, counter] = read_gyro(b, gyro_meas, counter)
-
+w=zeros(3,1);
 if length(gyro_meas) > counter % This is for the end of the data.
     t_gyro = gyro_meas(counter,1); % time
     u_arcsec = gyro_meas(counter,2:4); % x, y, z gyro

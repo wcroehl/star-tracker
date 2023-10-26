@@ -409,15 +409,22 @@ while( ccd_time <= TIMELIMIT )
 		qp = q0;
         q0 = q;
 		A = q_to_A(qp) ;
+        if det(A) < 1e-5
+            keyboard
+        end
 
 		M = zeros(3,3);
         for i=1:1:3
             for j=1:1:3 
                 for k=1:1:3
-                    M(i,j) = T_B(k,i) * A(k,j) ;
+                   M(i,j) = M(i,j) + T_B(k,i) * A(k,j);
                 end
             end
         end
+        if det(M) < 1e-5
+            keyboard
+        end
+        
         if (ccd_time > cctime)  % for QC          %dont know 5/4/22
             rmssum = rmssum + zsum;
             rmsnum  = rmsnum + znum ;
