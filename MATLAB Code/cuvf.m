@@ -265,6 +265,18 @@ HPHT = H*PHT;
 
 B = HPHT + R;
 
+B = inv(B);
+
+if det(B) > 1e-6
+    IFAIL = 0;
+else
+    IFAIL = 1;
+end
+
+if(IFAIL == 1)
+    printf(" Inverse of B matirx is singular\n");
+    exit(1);
+end
 % SYMINV3(B,&ifail) ;
 % if(ifail == 1) {
 %    printf(" Inverse of B matirx is singular\n") ;
@@ -301,7 +313,7 @@ B = HPHT + R;
 K = PHT*B;
 I_KH = eye(6)-K*H; %(6,3)(3,6)
 P = I_KH*P_pro;
-P_new = P*I_KH;
+P_new = P*I_KH';
 KR = K*R;
 P_pro = KR*K'; %or K*KR'
 
