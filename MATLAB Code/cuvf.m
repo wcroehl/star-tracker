@@ -266,7 +266,7 @@ HPHT = H*PHT;
 B = HPHT + R;
 
 B = inv(B);
-
+%{
 if det(B) > 1e-6
     IFAIL = 0;
 else
@@ -277,6 +277,7 @@ if(IFAIL == 1)
     printf(" Inverse of B matirx is singular\n");
     exit(1);
 end
+%}
 % SYMINV3(B,&ifail) ;
 % if(ifail == 1) {
 %    printf(" Inverse of B matirx is singular\n") ;
@@ -323,19 +324,30 @@ P_pro = KR*K'; %or K*KR'
 % for(i=0;i<6;i++) for(j=i;j<6;j++)
 %         P[i][j] = P[j][i] = (P_new[i][j] + P_new[j][i])/2. ;
 % for(i=0;i<6;i++) if(P[i][i] < 0.0 ) P[i][i] = 0.0 ;
-[row,col] = find(P_pro<0.1);
-P_pro(row, col) = 0.0;
+
+for i=1:6
+    if P_pro(i,i) < 0.0
+        P_pro(i,i) = 0.0;
+    end
+end
+
 P_new = P_new + P_pro;
 P = (P_new + P_new')/2;
-[row,col] = find(P<0.1);
-P(row, col) = 0.0;
+% [row,col] = find(P<0.1);
+% P(row, col) = 0.0;
+
+for i=1:6
+    if P(i,i) < 0.0
+        P(i,i) = 0.0;
+    end
+end
 
 % /* dx update */
 % for(i=0;i<3;i++) z[i] = b_star[ic]->L[i] - W_pro[i] ;
 % for(i=0;i<3;i++) zsum[i] += sqrt(z[i]*z[i]) ;
 %                  (*znum)++ ;
 z = b_star(ic).L - W_pro;
-zsum = norm(z);
+zsum = sqrt((z).^2);
 znum = znum + 1;
 
 % for(i=0;i<6;i++) dx[i] = 0.0 ;
