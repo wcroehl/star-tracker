@@ -187,27 +187,27 @@ function [rtn] = new_obs(t, t_start, t_end, count, candi_num, oldnum,...
           if(id_star(j) == stars(scell2(N_zone-1).star_num(thisnum-i)-1).cat_num) 
             astaragain = 1 ;
           end
-          if (astaragain ~= 1)  %/* no repeated star */
+       end
+       if (astaragain ~= 1)  %/* no repeated star */
               intptr  = stars(scell2(N_zone-1).star_num(thisnum-i)-1).cat_num  ;
               fprintf(outdist, "2  %15.6f %5d %15.8f \n", t, intptr, arc_dist) ;
               count = count + 1;
               intptr = intptr + 1;
-          end
-          i = i + 1;
-          astaragain = 0 ;
-          if((thisnum - i) < 0)  %/* break ;  */
-              thisnum = thisnum + scell2(N_zone-1).num_stars ;  
-              if (t > t_start && t < t_end) 
-                  fprintf(stdout, "Here3? thisnum=%4d\n", thisnum) ;
-              end
-          end
-          if (t > t_start && t < t_end)
+       end
+     end
+     i = i + 1;
+     astaragain = 0 ;
+     if((thisnum - i) < 0)  %/* break ;  */
+        thisnum = thisnum + scell2(N_zone-1).num_stars ;  
+        if (t > t_start && t < t_end) 
+            fprintf(stdout, "Here3? thisnum=%4d\n", thisnum) ;
+        end
+     end
+     if (t > t_start && t < t_end)
             fprintf(stdout, "+++ ra_diff_BD = %9.2f, ra_diff_new = %9.2f\n",...
                    ra_diff_BD, ra_diff_new) ;
             fprintf(stdout, "  i = %3d  <<<<  i_con = %6.2f\n", ...
                i, scell2(N_zone-1).num_stars/2.0) ;
-          end
-       end
      end
      kkk=kkk+1;
      if kkk > 500
