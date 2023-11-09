@@ -65,7 +65,7 @@ for ic = 1:1:cnt
 
 %     if(fabs(t_new - *t_old) > 0.0001 ) 
 %       {       
-    if(abs(del_t) > 0.0001 )
+    if(abs(t_new - t_old) > 0.0001 )
 
 %       w_mag = sqrt(w[0]*w[0]+w[1]*w[1]+w[2]*w[2]) ;     /* |ang. vel.| */
 %       for (i=0;i<3;i++) n_hat[i] = w[i]/w_mag ;    /* axis of rotation */ 
@@ -73,7 +73,7 @@ for ic = 1:1:cnt
 %       antisym4(M, n_hat) ;                   /* M : propagation matrix */
         w_mag = norm(w);
         n_hat = w/w_mag;
-        phi = w_mag*del_t;
+        phi = w_mag*(t_new - t_old);
         M = antisym4(n_hat);
 
 %       for(i=0;i<4;i++) for(j=0;j<4;j++) M[i][j] *= sin(phi/2) ;
@@ -88,8 +88,8 @@ for ic = 1:1:cnt
 %       q_sum = sqrt(q_propa[0]*q_propa[0]+q_propa[1]*q_propa[1]
 %             +      q_propa[2]*q_propa[2]+q_propa[3]*q_propa[3]) ;
 %       for(i=0;i<4;i++) q_propa[i] /= q_sum ;
-          q_sum = norm(q_propa);
-          q_propa = q_propa/q_sum;
+        q_sum = norm(q_propa);
+        q_propa = q_propa/q_sum;
 
 
 %       antisym3(w33, w) ; /* UNNECESSARY */
@@ -123,9 +123,11 @@ for ic = 1:1:cnt
 %       a_ = (t_new - *t_old) ;   ksai = ( 1 - cos(phi) )/ phi ;
 %       b_ = a_ * ksai ;          eta  = 1 - sin(phi)/phi ;
 %       c_ = a_ * eta ;
-          a_ = del_t ;   ksai = ( 1 - cos(phi) )/ phi ;
-          b_ = a_ * ksai ;          eta  = 1 - sin(phi)/phi ;
-          c_ = a_ * eta ;
+        a_ = t_new - t_old ;   
+        ksai = ( 1 - cos(phi) )/ phi ;
+        b_ = a_ * ksai ;          
+        eta  = 1 - sin(phi)/phi ;
+        c_ = a_ * eta ;
 
 %       for(i=0;i<3;i++) for(j=3;j<6;j++)
 %       transit[i][j] = n33[i][j-3]*b_ + n33sq[i][j-3]*c_ ;
@@ -139,23 +141,23 @@ for ic = 1:1:cnt
 %       for(i=3;i<6;i++) for(j=0;j<6;j++) transit[i][j] = 0.0 ;
 %       for(i=3;i<6;i++) transit[i][i] = 1.0 ;
 
-      for i=1:1:3
-          for j=4:1:6
-              transit(i,j) = n33(i,j-3)*b_ + n33sq(i,j-3)*c_ ;
-          end
-          transit(i,i+3) = transit(i,i+3) + a_ ;
-      end
+        for i=1:1:3
+            for j=4:1:6
+                transit(i,j) = n33(i,j-3)*b_ + n33sq(i,j-3)*c_ ;
+            end
+            transit(i,i+3) = transit(i,i+3) + a_ ;
+        end
       
-      transit1(1:3,4:6) = b_.*n33 + c_.*n33sq + a_*eye(3,3); 
+        transit1(1:3,4:6) = b_.*n33 + c_.*n33sq + a_*eye(3,3); 
 
-      for i=4:1:6
-          for j=1:1:6
-              transit(i,j) = 0.0 ;
-          end
-          transit(i,i) = 1.0 ;
-      end
-            transit1(4:6,1:3) = zeros(3,3);
-      transit1(4:6,4:6) = eye(3) ;
+        for i=4:1:6
+            for j=1:1:6
+                transit(i,j) = 0.0 ;
+            end
+            transit(i,i) = 1.0 ;
+        end
+        transit1(4:6,1:3) = zeros(3,3);
+        transit1(4:6,4:6) = eye(3) ;
 
 
 %       /* P propagated */
@@ -202,7 +204,7 @@ for ic = 1:1:cnt
          %for i=1:1:3
              %Q_k(i+3,i+3)= s_r*del_t;
          %end
-         Q_k(4:6,4:6) = diag([s_r*del_t, s_r*del_t, s_r*del_t]) ; %original code
+        Q_k(4:6,4:6) = diag([s_r*del_t, s_r*del_t, s_r*del_t]) ; %original code
 
 %       for(i=0;i<6;i++) for(j=0;j<6;j++) P_propa[i][j] += Q_k[i][j] ; 
         P_propa = P_propa + Q_k;
@@ -211,39 +213,39 @@ for ic = 1:1:cnt
 %               P_pro[i][j] = (P_propa[i][j]+P_propa[j][i])/2.;
         P_pro = 1/2*(P_propa + P_propa');
 
-      end %if(abs(t_new - t_old) > 0.0001 )
+    end %if(abs(t_new - t_old) > 0.0001 )
 
 
 %   if(abs(t_new - *t_old) < 0.0001 ) {
 %       for(i=0;i<6;i++) for(j=0;j<6;j++) P_pro[i][j] = P[i][j] ; 
 %       for(i=0;i<4;i++) q_propa[i] = q[i] ;
 %       }  
-      if(abs(del_t) < 0.0001 )
-          P_pro = P; 
-          q_propa = q;
-      end
+    if(abs(t_new - t_old) < 0.0001 )
+        P_pro = P; 
+        q_propa = q;
+    end
 
    
 % /* -----  update  ------ */
 % 
 % q_to_A(q_propa, A_pro) ;
-A_pro = q_to_A(q_propa);
+    A_pro = q_to_A(q_propa);
 
 % for(i=0;i<3;i++) W_pro[i] = 0.0 ;
 % for(i=0;i<3;i++) for(j=0;j<3;j++) W_pro[i] += A_pro[i][j] * crf[ic]->L[j] ;
 % antisym3(W_anti, W_pro) ;
 
-W_pro = A_pro* crf(ic).L; %original code,08/25/23
+    W_pro = A_pro* crf(ic).L; %original code,08/25/23
 
 %new version code, 08/25/23
 %W_pro = A_pro* crf(ic).L;
 
-W_anti = getSuperCross(W_pro);
+    W_anti = getSuperCross(W_pro);
 
 % for(i=0;i<3;i++) for(j=0;j<3;j++) H[i][j] = W_anti[i][j] ;
 % for(i=0;i<3;i++) for(j=3;j<6;j++) H[i][j] = 0.0 ;
-H = zeros(3,6);
-H(1:3,1:3) = W_anti;
+    H = zeros(3,6);
+    H(1:3,1:3) = W_anti;
 
 % for(i=0;i<6;i++) for(j=0;j<3;j++) PHT[i][j] = 0.0 ;
 % for(i=0;i<6;i++) for(j=0;j<3;j++) for(k=0;k<6;k++)
@@ -253,9 +255,9 @@ H(1:3,1:3) = W_anti;
 % for(i=0;i<3;i++) for(j=0;j<3;j++) for(k=0;k<6;k++)
 %         HPHT[i][j] += H[i][k]*PHT[k][j] ;
 
-PHT = zeros(6,3);
-PHT = P_pro*H'; %original code,08/25/23
-HPHT = H*PHT; 
+    PHT = zeros(6,3);
+    PHT = P_pro*H'; %original code,08/25/23
+    HPHT = H*PHT; 
 
 % /* matrix B */
 % for(i=0;i<3;i++) for(j=0;j<3;j++) B[i][j] = HPHT[i][j] + R[i][j];
@@ -263,9 +265,9 @@ HPHT = H*PHT;
 % B[0][2] = B[2][0] = (B[0][2]+B[2][0])/2.0 ;
 % B[1][2] = B[2][1] = (B[1][2]+B[2][1])/2.0 ;
 
-B = HPHT + R;
+    B = HPHT + R;
 
-B = inv(B);
+    B = inv(B);
 %{
 if det(B) > 1e-6
     IFAIL = 0;
@@ -311,12 +313,12 @@ end
 % for(i=0;i<6;i++) for(j=0;j<6;j++) for(k=0;k<3;k++)
 %         P_pro[i][j] += KR[i][k]*K[j][k] ;
 
-K = PHT*B;
-I_KH = eye(6)-K*H; %(6,3)(3,6)
-P = I_KH*P_pro;
-P_new = P*I_KH';
-KR = K*R;
-P_pro = KR*K'; %or K*KR'
+    K = PHT*B;
+    I_KH = eye(6)-K*H; %(6,3)(3,6)
+    P = I_KH*P_pro;
+    P_new = P*I_KH';
+    KR = K*R;
+    P_pro = KR*K'; %or K*KR'
 
 % for(i=0;i<6;i++) if(P_pro[i][i] < 0.0 ) P_pro[i][i] = 0.0 ;
 % for(i=0;i<6;i++) for(j=0;j<6;j++)
@@ -325,64 +327,66 @@ P_pro = KR*K'; %or K*KR'
 %         P[i][j] = P[j][i] = (P_new[i][j] + P_new[j][i])/2. ;
 % for(i=0;i<6;i++) if(P[i][i] < 0.0 ) P[i][i] = 0.0 ;
 
-for i=1:6
-    if P_pro(i,i) < 0.0
-        P_pro(i,i) = 0.0;
+    for i=1:6
+        if P_pro(i,i) < 0.0
+            P_pro(i,i) = 0.0;
+        end
     end
-end
 
-P_new = P_new + P_pro;
-P = (P_new + P_new')/2;
+    P_new = P_new + P_pro;
+    P = (P_new + P_new')/2;
 % [row,col] = find(P<0.1);
 % P(row, col) = 0.0;
 
-for i=1:6
-    if P(i,i) < 0.0
-        P(i,i) = 0.0;
+    for i=1:6
+        if P(i,i) < 0.0
+            P(i,i) = 0.0;
+        end
     end
-end
 
 % /* dx update */
 % for(i=0;i<3;i++) z[i] = b_star[ic]->L[i] - W_pro[i] ;
 % for(i=0;i<3;i++) zsum[i] += sqrt(z[i]*z[i]) ;
 %                  (*znum)++ ;
-z = b_star(ic).L - W_pro;
-zsum = sqrt((z).^2);
-znum = znum + 1;
+    z = b_star(ic).L - W_pro;
+    zsum = zsum+sqrt((z).^2);
+    znum = znum + 1;
 
 % for(i=0;i<6;i++) dx[i] = 0.0 ;
 % for(i=0;i<6;i++) for(j=0;j<3;j++) dx[i] += K[i][j]*z[j] ; 
-dx = zeros(6,1);
-dx = K*z;
+    dx = zeros(6,1);
+    dx = K*z;
 
 % temp = dx[0]*dx[0]+dx[1]*dx[1]+dx[2]*dx[2] ; 
 % coef = 1. / sqrt(1.+ temp/4.) ;   
 %   
 % for(i=0;i<3;i++) dq[i] = -coef *dx[i]/2. ;  /* +coef */ 
 %                  dq[3] = coef ;
-temp = dx(1)^2+dx(2)^2+dx(3)^2 ; 
-coef = 1. / sqrt(1.+ temp/4.) ;   
-dq(1:3) = -coef/2*dx(1:3);
-dq(4) = coef;
+    temp = dx(1)^2+dx(2)^2+dx(3)^2 ; 
+    coef = 1. / sqrt(1.+ temp/4.) ;   
+    dq(1:3) = -coef/2*dx(1:3);
+    dq(4) = coef;
 
   
 % qcomp(dq,q_propa,q_new) ; 
-q_new = qcomp(dq,q_propa);
+    q_new = qcomp(dq,q_propa);
 % q_sum = sqrt(q_new[0]*q_new[0]+q_new[1]*q_new[1]
 %       +      q_new[2]*q_new[2]+q_new[3]*q_new[3]) ;
 % for(i=0;i<4;i++) q_new[i] /= q_sum ;
-q_sum = norm(q_new);
-q_new = q_new/q_sum;
+    q_sum = norm(q_new);
+    q_new = q_new/q_sum;
 
 % for(i=0;i<3;i++) b[i] = b[i]+dx[i+3] ;
-b = b + dx(4:6)';
+    b = b + dx(4:6)';
 
 % for(i=0;i<4;i++) q[i] = q_new[i] ;
 % *t_old = t_new ;
-q = q_new;
-t_old = t_new
+    q = q_new;
+    t_old = t_new;
 
-end % for ic = 1:1:cnt 
+end % for ic = 1:1:cnt
+end
+
 
 
 
