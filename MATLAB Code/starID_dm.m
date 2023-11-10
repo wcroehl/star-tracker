@@ -1,4 +1,4 @@
-function [t, id_count ,ret_fun] = starID_dm(t, q0, nstar, id_count, cctime, w, crf_count, id_star, id_body, outi, outr, outo, outmag, outdist, ixy, x, y, xmag, t_start, t_end, m_star, crf, stars, T_B, b_star, scell2)
+function [t, id_count, x, y, xmag, id_star, id_body, ret_fun] = starID_dm(t, q0, nstar, id_count, cctime, w, crf_count, id_star, id_body, outi, outr, outo, outmag, outdist, ixy, x, y, xmag, t_start, t_end, m_star, crf, stars, T_B, b_star, scell2)
 % FILE   *outi, *outr, *outo,  *outmag, *outdist, *ixy ;
 % int    *id_count, nstar,  crf_count, *id_star, *id_body ; 
 % double t, q0[4], cctime, w[3], x[Ns], y[Ns], xmag[Ns], t_start, t_end ;
@@ -16,7 +16,7 @@ function [t, id_count ,ret_fun] = starID_dm(t, q0, nstar, id_count, cctime, w, c
 
    Mp = dmt_atti(w, q0,T_B);
    
-   [c_star, obs_ra, obs_dec, obs_mag, m_star, crf, rtn] = in_order(crf_count, nstar, Mp, x, y, xmag,  m_star, crf) ;
+   [c_star, obs_ra, obs_dec, obs_mag, m_star, crf, x, y, xmag, rtn] = in_order(crf_count, nstar, Mp, x, y, xmag,  m_star, crf, obs_ra, obs_dec, obs_mag) ;
    if (rtn ~= 1)
        fprintf("starID_dm():in_order() didn't finish normally.\n") ;
        ret_fun = 6;

@@ -1,5 +1,5 @@
 % int in_order(crf_count, obs_count, Mp, obs_ra, obs_dec, obs_mag, x, y, xmag)
-function [c_star, obs_ra, obs_dec, obs_mag, m_star, crf, return_value] = in_order(crf_count, obs_count, Mp, x, y, xmag, m_star, crf)
+function [c_star, obs_ra, obs_dec, obs_mag, m_star, crf, x, y, xmag, return_value] = in_order(crf_count, obs_count, Mp, x, y, xmag, m_star, crf, obs_ra, obs_dec, obs_mag)
 % int    crf_count, obs_count ;
 % double Mp(3)(3), *obs_ra, *obs_dec, *obs_mag, x(Ns), y(Ns), xmag(Ns) ;
 %  
