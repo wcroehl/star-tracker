@@ -1,4 +1,4 @@
-function return_value = dmt_write(t, id_count, id_star, id_body, outmag, outo, outi, outr, ixy, x, y, xmag, stars, T_B, m_star, b_star)
+function [b_star, return_value] = dmt_write(t, id_count, id_star, id_body, outmag, outo, outi, outr, ixy, x, y, xmag, stars, T_B, m_star, b_star)
 % int dmt_write(t, id_count, id_star, id_body, outmag, outo, outi, outr, ixy, x, y, xmag)
 % FILE   *outmag, *outi, *outr, *outo, *ixy ;
 % int    *id_count, *id_star, *id_body  ;
@@ -33,10 +33,10 @@ for(i=1:id_count)
    for(j=1:3); b_star(i).L(j) = 0.0 ; end
    for(j=1:3)
        for(k=1:3)
-         b_star(i).L(j) = b_star(i).L(j) + T_B(j,k) * m_star((id_body(i))+1).L(k) ;
-         b_star(i).mag = m_star((id_body(i))+1).mag ;
+         b_star(i).L(j) = b_star(i).L(j) + T_B(j,k) * m_star(id_body(i)).L(k) ;
        end
    end
+   b_star(i).mag = m_star(id_body(i)).mag;
 
    fprintf(outmag," %15.3f  2  %6d  %6.2f %6.2f %8.4f\n", t, crf(i).num, crf(i).mag, b_star(i).mag, ang_dist) ;
 

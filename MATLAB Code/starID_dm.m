@@ -1,4 +1,4 @@
-function [t, id_count, x, y, xmag, id_star, id_body, ret_fun] = starID_dm(t, q0, nstar, id_count, cctime, w, crf_count, id_star, id_body, outi, outr, outo, outmag, outdist, ixy, x, y, xmag, t_start, t_end, m_star, crf, stars, T_B, b_star, scell2)
+function [t, id_count, x, y, xmag, id_star, id_body, crf, b_star, ret_fun] = starID_dm(t, q0, nstar, id_count, cctime, w, crf_count, id_star, id_body, outi, outr, outo, outmag, outdist, ixy, x, y, xmag, t_start, t_end, m_star, crf, stars, T_B, b_star, scell2)
 % FILE   *outi, *outr, *outo,  *outmag, *outdist, *ixy ;
 % int    *id_count, nstar,  crf_count, *id_star, *id_body ; 
 % double t, q0[4], cctime, w[3], x[Ns], y[Ns], xmag[Ns], t_start, t_end ;
@@ -43,7 +43,7 @@ function [t, id_count, x, y, xmag, id_star, id_body, ret_fun] = starID_dm(t, q0,
 %        ret_fun = 6;
 %    end
 
-    rtn = dmt_write(t, id_count, id_star, id_body, ...
+    [b_star, rtn] = dmt_write(t, id_count, id_star, id_body, ...
                  outmag, outo, outi, outr, ixy, x, y, xmag, stars, T_B, m_star, b_star) ;
 %    if (rtn ~= 1)
 %        fprintf("starID_dm():dmt_write() didn't finish normally.\n") ;

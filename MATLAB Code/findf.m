@@ -1,5 +1,5 @@
 function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_ra, obs_dec, obs_mag,id_count, id_star, id_body, vici, Mp, outdist, t_start, t_end, crf, c_star, stars, scell2)
-    rtn = 0;
+    rtn = 1;
     sig = 0;
     count = sig;
     mTOL0 = .8;
@@ -8,13 +8,13 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
     end
     
     for i=1:1:obs_count        
-        find_num = 40; %sizeof(int) = 4
+        %find_num = 40; %sizeof(int) = 4
         
         if t > t_start && t < t_end 
             fprintf(stdout, "Here1: *id_count=%3d\n", id_count) ; 
         end
         
-        iptr = find_num;
+        %iptr = find_num;
         
         if t > t_start && t < t_end
             fprintf(stdout, "FIND: t=%15.6f c_star[%2d]->mag = %7.2f\n", t, i, c_star(i)); 
@@ -49,17 +49,19 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
             
             if(abs(arc_dist) < vici && abs(mag_diff) < mTOL0) %found one candidate: was VICINITY
                 iptr = stars(crf(j).num).cat_num ;
+                find_num = iptr; %added 11/16/23
                 fprintf(outdist, "1  %15.6f %5d %15.8f \n", t, iptr, arc_dist);
                 count=count+1;
                 iptr=iptr+1;
             end
         end
-        find_num2 = 50; %sizeof(int)=4
+        %find_num2 = 50; %sizeof(int)=4
         switch (count)
             case 0 %False observation or New observation
                 count0 = 0;
-                chosen_num = crf(floor(crf_count/2.0));
-                
+                %chosen_num = crf(floor(crf_count/2.0)).num;
+                chosen_num = crf(floor(crf_count/2.0)+1).num;
+                find_num2 = chosen_num; %added 11/16/23
                 rtn = new_obs(t, t_start, t_end, count0, find_num2, chosen_num, ...
                     c_star(i), obs_ra(i), obs_dec(i), obs_mag(i),...  
                     id_star, id_count, vici, Mp, outdist, scell2, stars);
@@ -93,8 +95,9 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
         end
         if(sig ~= 0)
             id_star(id_count+1) = chosen_num ;
-            id_count = id_count+1;
-            id_body(id_count+1) = i ;  %for c_star   
+            %id_count = id_count+1;
+            id_body(id_count+1) = i ;  %for c_star  
+            id_count = id_count+1; %moved 11/16/23
         end
         count = 0 ;    
     end

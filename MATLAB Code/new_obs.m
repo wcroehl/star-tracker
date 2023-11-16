@@ -19,7 +19,7 @@ function [rtn] = new_obs(t, t_start, t_end, count, candi_num, oldnum,...
  BD_limit = 6;
  FOV_limit = 12;
  for i = 0:1:2 
-    BD_vec(i+1) = Mp(2,i+1) ;
+    BD_vec(i+1) = Mp(3,i+1) ;
  end %/* give star vector in the CRF frame */ 
  BD_ra = atan2(BD_vec(2), BD_vec(1)) * 180.0 / pi ;
                if ( BD_ra  <  0.0)
