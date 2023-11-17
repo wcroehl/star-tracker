@@ -36,7 +36,7 @@ function [rtn] = new_obs(t, t_start, t_end, count, candi_num, oldnum,...
  if (N_zone ~= previ_N_zone)
      cell = scell2(N_zone-1).num_stars;
    for j=1:1:cell
-       if (scell2(N_zone-1).star_num(j) == oldnum.num)
+       if (scell2(N_zone-1).star_num(j) == oldnum)%change 11/17
            thisnum = j+1 ;
        end
        if (t > t_start && t < t_end) 
