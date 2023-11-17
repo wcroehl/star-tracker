@@ -29,8 +29,9 @@ for i=1:ij
     end
 end
 
-ii = i ;
-jj = j ;
+ii = i;
+jj = i;
+%jj = j; %change jj code 11/17
 esignal = 3 ;  %/* no match found */
 return ;
 
