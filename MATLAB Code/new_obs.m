@@ -1,5 +1,5 @@
 function [rtn] = new_obs(t, t_start, t_end, count, candi_num, oldnum,...
-         new, new_ra, new_dec, new_mag, id_star, id_count, vici, Mp, outdist, scell2, stars)
+         new, new_ra, new_dec, new_mag, id_star, id_count, vici, Mp, outdist, scell2, stars, mTOL)
 % FILE   *outdist ;
 % struct VecStar *new ;
 % int    *count, *candi_num, oldnum, *id_star, id_count ;

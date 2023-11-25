@@ -64,7 +64,7 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
                 find_num2 = chosen_num; %added 11/16/23
                 rtn = new_obs(t, t_start, t_end, count0, find_num2, chosen_num, ...
                     c_star(i), obs_ra(i), obs_dec(i), obs_mag(i),...  
-                    id_star, id_count, vici, Mp, outdist, scell2, stars);
+                    id_star, id_count, vici, Mp, outdist, scell2, stars,mTOL0);
                 
                 if rtn ~= -1
                     fprintf(stdout,"starID_dm()::new_obs() finished abnormally.\n");
