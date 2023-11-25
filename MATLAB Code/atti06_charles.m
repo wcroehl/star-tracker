@@ -242,7 +242,7 @@ while( ccd_time <= TIMELIMIT )
         end
     elseif (ccd_time >= cctime && nstar > 0 && consec ~= 0)
         c_dm = c_dm + 1;
-        [ccd_time, cnt, x, y, xmag, id_star, id_body, crf, b_star, rtn] = starID_dm(ccd_time, q0, nstar, cnt, cctime, w, crf_count, id_star, id_body, outi, outr, outo, outmag, outdist, ixy, x, y, xmag, ccd_time0, ccd_time, m_star, crf, stars, T_B, b_star, scell2);
+        [ccd_time, cnt, x, y, xmag, id_star, id_body, crf, b_star, rtn] = starID_dm(ccd_time, q0, nstar, cnt, cctime, w, crf_count, id_star, id_body, outi, outr, outo, outmag, outdist, ixy, x, y, xmag, ccd_time0, TIMELIMIT, m_star, crf, stars, T_B, b_star, scell2);
         for i=1:BLI_size
             fprintf("%0.4f  %4d      %0.4f   %0.4f   %0.4f   %4f\n",BLI(i).IBL,BLI(i).starnum,BLI(i).L(1),BLI(i).L(2),BLI(i).L(3), BLI(i).mag) ;
         end

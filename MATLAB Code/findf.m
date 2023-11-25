@@ -11,13 +11,15 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
         %find_num = 40; %sizeof(int) = 4
         
         if t > t_start && t < t_end 
-            fprintf(stdout, "Here1: *id_count=%3d\n", id_count) ; 
+            %fprintf(stdout, "Here1: *id_count=%3d\n", id_count) ;
+            fprintf("Here1: *id_count=%3d\n", id_count) ;
         end
         
         %iptr = find_num;
         
         if t > t_start && t < t_end
-            fprintf(stdout, "FIND: t=%15.6f c_star[%2d]->mag = %7.2f\n", t, i, c_star(i)); 
+            %fprintf(stdout, "FIND: t=%15.6f c_star[%2d]->mag = %7.2f\n", t, i, c_star(i)); 
+            fprintf("FIND: t=%15.6f c_star[%2d]->mag = %7.2f\n", t, i, c_star(i).mag);
         end
         
         for j=1:1:crf_count
@@ -43,8 +45,10 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
             mag_diff = c_star(i).mag-crf(j).mag;
             
             if (t > t_start && t < t_end)     
-                fprintf(stdout, "FIND: t=%15.6f  crf[%2d]->num=%5d  mag=%5.2f ", t, j, crf(j), crf(i)) ;
-                fprintf(stdout, "arc_dist (arcsec) =%10.4f\n", arc_dist) ;
+                %fprintf(stdout, "FIND: t=%15.6f  crf[%2d]->num=%5d  mag=%5.2f ", t, j, crf(j), crf(i)) ;
+                %fprintf(stdout, "arc_dist (arcsec) =%10.4f\n", arc_dist) ;
+                fprintf("FIND: t=%15.6f  crf[%2d]->num=%5d  mag=%5.2f ", t, j, crf(j).num, crf(j).mag) ;
+                fprintf("arc_dist (arcsec) =%10.4f\n", arc_dist) ;
             end
             
             if(abs(arc_dist) < vici && abs(mag_diff) < mTOL0) %found one candidate: was VICINITY
@@ -62,7 +66,7 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
                 %chosen_num = crf(floor(crf_count/2.0)).num;
                 chosen_num = crf(floor(crf_count/2.0)+1).num;
                 find_num2 = chosen_num; %added 11/16/23
-                rtn = new_obs(t, t_start, t_end, count0, find_num2, chosen_num, ...
+                [count0, find_num2, rtn] = new_obs(t, t_start, t_end, count0, find_num2, chosen_num, ...
                     c_star(i), obs_ra(i), obs_dec(i), obs_mag(i),...  
                     id_star, id_count, vici, Mp, outdist, scell2, stars);
                 
