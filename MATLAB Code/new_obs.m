@@ -244,9 +244,19 @@ end
 if (thisnum == scell2(N_zone).num_stars)
     thisnum = 1 ; %/* was 1 */
 end
-i=1 ;
+i=1;
+
+ra_diff_new0 = ra_diff_new;
+ra_diff_BD0 = ra_diff_BD;
+ra_diff_new = 0;
+ra_diff_BD = 0;
+
 while (((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit*3600+1800.)) ...
         &&  i < floor(scell2(N_zone).num_stars/2.0))
+    
+    if i == 1
+        
+    
     i_ra  = stars(scell2(N_zone).star_num(thisnum+i)).ra  ;
     i_dec = stars(scell2(N_zone).star_num(thisnum+i)).dec ;
     i_mag = stars(scell2(N_zone).star_num(thisnum+i)).mag ;
