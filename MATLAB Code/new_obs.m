@@ -322,9 +322,9 @@ while (((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit
             fprintf("Here5? thisnum=%4d\n", thisnum) ;
         end
     end
-    if(~(abs(ra_diff_BD) < BD_limit*3600+1800.) || ...
-            ~((abs(ra_diff_new) < FOV_limit*3600+1800.) &&  i < floor(scell2(N_zone).num_stars/2.0))) break;
-    end
+    %if(~(abs(ra_diff_BD) < BD_limit*3600+1800.) || ...
+    %        ~((abs(ra_diff_new) < FOV_limit*3600+1800.) &&  i < floor(scell2(N_zone).num_stars/2.0))) break;
+    %end
 end
 thisnum = thisnum1 ;  
 
