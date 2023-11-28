@@ -19,8 +19,8 @@ thisnum = 0;
 thisnum0 = 0;
 %BD_limit = 6;
 %FOV_limit = 12;
-BD_limit = 9;
-FOV_limit = 16;
+BD_limit = 6;
+FOV_limit = 12;
 for i = 0:1:2 
     BD_vec(i+1) = Mp(3,i+1) ;
 end %/* give star vector in the CRF frame */ 
@@ -44,7 +44,7 @@ if (N_zone ~= previ_N_zone)
             if (t > t_start && t < t_end) 
                 %fprintf(stdout, "Here? j=%4d\n", j) ;
                 fprintf("Here? j=%4d\n", j) ;
-                break ;
+            break;    
             end
         end
     end
@@ -77,7 +77,11 @@ end
 
 i=0;
 
-while (true) 
+ra_diff_BD = 0;
+ra_diff_new = 0;
+
+while(((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit*3600+1800.)) ...
+        &&  i < floor(scell2(N_zone).num_stars/2.0))
     i_ra  = stars(scell2(N_zone).star_num(thisnum-i)).ra;
     i_dec = stars(scell2(N_zone).star_num(thisnum-i)).dec;
     i_mag = stars(scell2(N_zone).star_num(thisnum-i)).mag;
@@ -127,7 +131,8 @@ while (true)
         if (astaragain ~= 1)  %/* no repeated star */
             intptr  = stars(scell2(N_zone).star_num(thisnum-i)).cat_num;
             candi_num = intptr;
-            fprintf(outdist, "2  %15.6f %5d %15.8f \n", t, intptr, arc_dist) ;
+            %fprintf(outdist, "2  %15.6f %5d %15.8f \n", t, intptr, arc_dist) ;
+            fprintf("2  %15.6f %5d %15.8f \n", t, intptr, arc_dist);
             count = count + 1;
             intptr = intptr + 1;
         end
@@ -151,9 +156,9 @@ while (true)
         fprintf("  i = %3d  <<<<  i_con = %6.2f\n", ...
             i, scell2(N_zone).num_stars/2.0) ;
     end
-    if(~(abs(ra_diff_BD) < BD_limit*3600+1800.) || ...
-            ~((abs(ra_diff_new) < FOV_limit*3600+1800.) &&  i < floor(scell2(N_zone).num_stars/2.0))) break;
-    end
+    %if(~(abs(ra_diff_BD) < BD_limit*3600+1800.) || ...
+    %        ~((abs(ra_diff_new) < FOV_limit*3600+1800.) &&  i < floor(scell2(N_zone).num_stars/2.0))) break;
+    %end
 end
 %{
 while(((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit*3600+1800.)) ...
@@ -240,7 +245,8 @@ if (thisnum == scell2(N_zone).num_stars)
     thisnum = 1 ; %/* was 1 */
 end
 i=1 ;
-while (true)
+while (((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit*3600+1800.)) ...
+        &&  i < floor(scell2(N_zone).num_stars/2.0))
     i_ra  = stars(scell2(N_zone).star_num(thisnum+i)).ra  ;
     i_dec = stars(scell2(N_zone).star_num(thisnum+i)).dec ;
     i_mag = stars(scell2(N_zone).star_num(thisnum+i)).mag ;
