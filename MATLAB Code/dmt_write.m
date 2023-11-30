@@ -1,4 +1,4 @@
-function [b_star, return_value] = dmt_write(t, id_count, id_star, id_body, outmag, outo, outi, outr, ixy, x, y, xmag, stars, T_B, m_star, b_star)
+function [b_star, crf, return_value] = dmt_write(t, id_count, id_star, id_body, outmag, outo, outi, outr, ixy, x, y, xmag, stars, T_B, m_star, b_star, crf)
 % int dmt_write(t, id_count, id_star, id_body, outmag, outo, outi, outr, ixy, x, y, xmag)
 % FILE   *outmag, *outi, *outr, *outo, *ixy ;
 % int    *id_count, *id_star, *id_body  ;
