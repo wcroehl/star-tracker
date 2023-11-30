@@ -6,7 +6,7 @@ function [b_star, crf, return_value] = dmt_write(t, id_count, id_star, id_body, 
 %  {
 %  int       i, j, k, rtn=0 ;
 %  double    alpha, delta, pos(3), ang_dist ;
-
+pos = zeros(3,1);
 for(i=1:id_count)
      
    alpha = stars(id_star(i)).ra  / 180 * pi ;   % RA_in_radian   %
@@ -17,9 +17,10 @@ for(i=1:id_count)
    pos(2) = cos(delta) * sin(alpha) ; % usually on y axis %
    pos(3) = sin(delta) ;  % usually on z axis %
    
-   crf(i).L(1) = pos(1) ; % usually on x axis %
-   crf(i).L(2) = pos(2) ; % usually on y axis %
-   crf(i).L(3) = pos(3) ;  % usually on z axis %
+   crf(i).L = pos;
+  % crf(i).L(1) = pos(1) ; % usually on x axis %
+  % crf(i).L(2) = pos(2) ; % usually on y axis %
+  % crf(i).L(3) = pos(3) ;  % usually on z axis %
    crf(i).mag  = stars((id_star(i))).mag ;
    crf(i).num  = (id_star(i));
 
