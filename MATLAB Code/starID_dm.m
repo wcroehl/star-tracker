@@ -43,8 +43,8 @@ function [t, id_count, x, y, xmag, id_star, id_body, crf, b_star, ret_fun] = sta
 %        ret_fun = 6;
 %    end
 
-    [b_star, rtn] = dmt_write(t, id_count, id_star, id_body, ...
-                 outmag, outo, outi, outr, ixy, x, y, xmag, stars, T_B, m_star, b_star) ;
+    [b_star, crf, rtn] = dmt_write(t, id_count, id_star, id_body, ...
+                 outmag, outo, outi, outr, ixy, x, y, xmag, stars, T_B, m_star, b_star, crf) ;
 %    if (rtn ~= 1)
 %        fprintf("starID_dm():dmt_write() didn't finish normally.\n") ;
 %        ret_fun = 6;

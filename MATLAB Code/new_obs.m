@@ -157,7 +157,8 @@ while(((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit*
             i, scell2(N_zone).num_stars/2.0) ;
     end
     %if(~(abs(ra_diff_BD) < BD_limit*3600+1800.) || ...
-    %        ~((abs(ra_diff_new) < FOV_limit*3600+1800.) &&  i < floor(scell2(N_zone).num_stars/2.0))) break;
+    %        ~(((abs(ra_diff_new) < FOV_limit*3600+1800.) &&  i < floor(scell2(N_zone).num_stars/2.0))))
+    %    break;
     %end
 end
 %{
@@ -255,7 +256,9 @@ while (((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit
         &&  i < floor(scell2(N_zone).num_stars/2.0))
     
     if i == 1
-        
+        ra_diff_new = ra_diff_new0;
+        ra_diff_BD = ra_diff_BD0;
+    end    
     
     i_ra  = stars(scell2(N_zone).star_num(thisnum+i)).ra  ;
     i_dec = stars(scell2(N_zone).star_num(thisnum+i)).dec ;
