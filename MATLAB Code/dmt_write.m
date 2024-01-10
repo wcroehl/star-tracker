@@ -37,6 +37,12 @@ for(i=1:id_count)
          b_star(i).L(j) = b_star(i).L(j) + T_B(j,k) * m_star(id_body(i)).L(k) ;
        end
    end
+   
+   %add if statement to use ";" instead of "," for over 5 stars,1/10/24 
+   if i > 4
+     b_star(i).L=b_star(i).L';
+   end
+
    b_star(i).mag = m_star(id_body(i)).mag;
 
    fprintf(outmag," %15.3f  2  %6d  %6.2f %6.2f %8.4f\n", t, crf(i).num, crf(i).mag, b_star(i).mag, ang_dist) ;
