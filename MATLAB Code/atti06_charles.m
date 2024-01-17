@@ -129,7 +129,7 @@ rtn_prev = 0;
 
 % READ STAR DATA 
 ccd_time = -2000.0; 
-load('measurement_data.mat');  % Data file containing FOVs_meas, gyro_meas, q0, t0
+load('measurement_data2.mat');  % Data file containing FOVs_meas, gyro_meas, q0, t0
 nstar = 0;
 FOVs_count = 1;
 while (nstar < 3)
