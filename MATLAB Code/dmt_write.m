@@ -18,6 +18,7 @@ for(i=1:id_count)
    pos(3) = sin(delta) ;  % usually on z axis %
    
    crf(i).L = pos;
+   b_star(i).L = pos;
   % crf(i).L(1) = pos(1) ; % usually on x axis %
   % crf(i).L(2) = pos(2) ; % usually on y axis %
   % crf(i).L(3) = pos(3) ;  % usually on z axis %
