@@ -129,7 +129,7 @@ rtn_prev = 0;
 
 % READ STAR DATA 
 ccd_time = -2000.0; 
-load('measurement_data.mat');  % Data file containing FOVs_meas, gyro_meas, q0, t0
+load('measurement_data2.mat');  % Data file containing FOVs_meas, gyro_meas, q0, t0
 nstar = 0;
 FOVs_count = 1;
 while (nstar < 3)
@@ -183,6 +183,9 @@ while( ccd_time <= TIMELIMIT )
     fprintf('%15.6f  %15.6f  %15.6f\n', ccd_time, t_gyro, ccd_time-t_gyro) ;
     q0 = q0/norm(q0);
     cnt = 0;
+    if ccd_time == 19.9
+        keyboard;
+    end
     if ( ccd_time < cctime && nstar >= 3)
         c_pm = c_pm + 1 ;
         rtn = 0 ;
@@ -362,9 +365,11 @@ while( ccd_time <= TIMELIMIT )
                 t_old = ccd_time;
             end
             A = q_to_A(qq);
-            qp = q;
+            
             q0 = qq;
             q = q0;
+            qp = q;
+            
 % 			  for(i=0;i<3;i++) for(j=0;j<3;j++) M[i][j] = 0.0 ;    
             M = zeros(3,3);
 % 			  for(i=0;i<3;i++) for(j=0;j<3;j++) for(k=0;k<3;k++)
@@ -405,9 +410,9 @@ while( ccd_time <= TIMELIMIT )
         if ccd_time < KF  
             w0 = w;
         end
-
-		qp = q0;
+        
         q0 = q;
+		qp = q0;
 		A = q_to_A(qp) ;
         if det(A) < 1e-5
             keyboard
