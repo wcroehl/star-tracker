@@ -183,9 +183,7 @@ while( ccd_time <= TIMELIMIT )
     fprintf('%15.6f  %15.6f  %15.6f\n', ccd_time, t_gyro, ccd_time-t_gyro) ;
     q0 = q0/norm(q0);
     cnt = 0;
-    if ccd_time == 19.9
-        keyboard;
-    end
+
     if ( ccd_time < cctime && nstar >= 3)
         c_pm = c_pm + 1 ;
         rtn = 0 ;
