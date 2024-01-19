@@ -196,6 +196,7 @@ while( ccd_time <= TIMELIMIT )
         b_star_prev = b_star;
         crf_prev = crf;
         rtn_prev = rtn;
+        %{
         fprintf("NEWBLI\n") ;        %  !!PRINT STATEMENT!!<-----------------------------------------------------------------*/
         fprintf("mag        id      num\n") ;
         NEWBLI_size = size(struct2table(NEWBLI),1);
@@ -219,7 +220,7 @@ while( ccd_time <= TIMELIMIT )
             fprintf("%0.4f   %0.4f   %0.4f   %4f\n",m_star(i).L(1),m_star(i).L(2),m_star(i).L(3),m_star(i).mag) ;
         end
         fprintf("\n");
-        
+        %}
         for i=1:1:Ns 
             x(i) = 0.0;
             y(i) = 0.0;
@@ -244,6 +245,7 @@ while( ccd_time <= TIMELIMIT )
     elseif (ccd_time >= cctime && nstar > 0 && consec ~= 0)
         c_dm = c_dm + 1;
         [ccd_time, cnt, x, y, xmag, id_star, id_body, crf, b_star, rtn] = starID_dm(ccd_time, q0, nstar, cnt, cctime, w, crf_count, id_star, id_body, outi, outr, outo, outmag, outdist, ixy, x, y, xmag, ccd_time0, cctime, m_star, crf, stars, T_B, b_star, scell2);
+        %{
         for i=1:BLI_size
             fprintf("%0.4f  %4d      %0.4f   %0.4f   %0.4f   %4f\n",BLI(i).IBL,BLI(i).starnum,BLI(i).L(1),BLI(i).L(2),BLI(i).L(3), BLI(i).mag) ;
         end
@@ -256,6 +258,7 @@ while( ccd_time <= TIMELIMIT )
             fprintf("%0.4f   %0.4f   %0.4f   %4f\n",m_star(i).L(1),m_star(i).L(2),m_star(i).L(3),m_star(i).mag);
         end
         fprintf("\n");
+        %}
         for i=1:1:Ns 
             x(i) = 0.0;
             y(i) = 0.0;
@@ -544,7 +547,8 @@ while( ccd_time <= TIMELIMIT )
                 break;
             end
         end
-		[t_gyro, w, u, gread] = read_gyro(t_gyro, u, b_est_average, w, gyro);
+		%[t_gyro, w, u, gread] = read_gyro(t_gyro, u, b_est_average, w, gyro);
+        [t_gyro, w, u, gread] = read_gyro(b_est_average, gyro_meas, gyro_count);
 
         if (gread == 1)
 		    fprintf(stdout,"No more gyro data. IST data may exist at %10.2f\n", t_gyro);
@@ -561,7 +565,7 @@ while( ccd_time <= TIMELIMIT )
 		[rg,q0] = no_stars(q0, w) ; % change 7/14/23 
         %rg = no_stars(ccd_time, t_gyro, q0, w) ;% original code    %dont have
 		qp = q0;
-		q_to_A(qp, A) ;
+		A = q_to_A(qp) ;
 
 		M = zeros(3,3);
         for i=1:1:3 
