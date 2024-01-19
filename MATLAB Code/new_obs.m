@@ -311,14 +311,15 @@ while (((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit
 
     if(abs(arc_dist) < vici && abs(i_mag - new_mag) < mTOL) %/* a possible match */
         thisnum1 = thisnum+i+1 ;
-        for j=0:1:id_count
-            if(id_star(j) == stars(scell2(N_zone).star_num(thisnum+i)-1).cat_num) 
+        for j=1:1:id_count
+            if(id_star(j) == stars(scell2(N_zone).star_num(thisnum+i)).cat_num) 
                 astaragain = 1 ;
             end
         end
 
         if( astaragain ~= 1)  %/* no repeated star */
-            intptr = stars(scell2(N_zone).star_num(thisnum+i)-1).cat_num;
+            intptr = stars(scell2(N_zone).star_num(thisnum+i)).cat_num;
+            candi_num = intptr;
             %fprintf(outdist, "2  %15.6f %5d %15.8f \n", t, intptr, arc_dist) ;
             fprintf("2  %15.6f %5d %15.8f \n", t, intptr, arc_dist) ;
             count = count+1;
