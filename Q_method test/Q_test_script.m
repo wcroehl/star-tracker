@@ -13,10 +13,10 @@ W_test=load('OW_QTest.dat');
 
 %set the data for q_method test
 l=length(n_test);
-i=1;
-while i <= l
-    nstar=n_test(i);
-    ccd_time=t_test(i);
+S=1;
+while S <= l
+    nstar=n_test(S);
+    ccd_time=t_test(S);
     d_i=0;
     sign1=0;
     nsig=0;
@@ -35,7 +35,7 @@ while i <= l
     
     %q_method test
     [qq, P_theta, d_i, rtn] = q_method(W, V, nstar, d_i, outPTk2, outPTk3, ccd_time);
-    i=i+1;
+    
     if (rtn ~= 0)
 	   fprintf(stdout,"q_method() finished abnormally at %10.2f\n", ccd_time);
     end
@@ -73,5 +73,5 @@ while i <= l
        % original code: fprintf(out2,"\t12.8f\t%12.8\t%12.8 ", sqrt(4*P)); 
        % completely diffrent from C, 7/10/23
    fprintf(out2,"\n");
-
+   S=S+1;
  end
