@@ -23,7 +23,8 @@ function [rtn, id_count, id_star, id_body] = findf(t, crf_count, obs_count, obs_
         end
         
         for j=1:1:crf_count
-            for k=1:1:id_count 
+            %for k=1:1:id_count 
+            for k=1:1:id_count
                 if crf(j).num == id_star(k)
                     sig = 8 ;
                 end
