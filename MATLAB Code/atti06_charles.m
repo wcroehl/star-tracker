@@ -597,6 +597,7 @@ while( ccd_time <= TIMELIMIT )
 		fprintf(outn,"%15.6f  %2d  %2d  %2d  %2d  %8.3f\n",ccd_time, id_, 0, 0, consec, 0.0) ;
 		fprintf(outM,"%12.6f %3d\n%20.15f %20.15f %20.15f \n%20.15f %20.15f %20.15f \n% 20.15f %20.15f %20.15f \n",ccd_time, QC1, inv(M)) ;
            %updated 7/27 from M
+        [ccd_time, x, y, xmag, m_star, nstar] = read_CCD(ccd_time,FOVs_meas, Ns);
     end % end of while (nstar = read_CCD(  ) ) */
 
     if (nstar > 0) 
