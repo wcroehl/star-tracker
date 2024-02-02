@@ -140,7 +140,7 @@ if (esignal == 3) nstar = 0 ; end
 if(nstar == 0)
    b_star = b_star_prev;
    crf = crf_prev;
-   return_value = rtn_prev
+   return_value = rtn_prev;
 else
     for i=1:nstar
         if (NEWBLI(i).mag ~= 0.0)
@@ -210,7 +210,7 @@ else
 
 
     end
-    return_value = 1;
-end 
+end
+return_value = 1;
 end
 
