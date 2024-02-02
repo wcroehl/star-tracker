@@ -25,5 +25,5 @@ end
 if(sign == 2) % 3rd not matched.
     esignal = 3 ;
 end
-return ;
+end
 
