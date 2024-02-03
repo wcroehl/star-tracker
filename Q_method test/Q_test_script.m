@@ -4,8 +4,8 @@ clear all, clear clc
 %load and make necessary files
 outPTk2 = fopen('outpt2k.dat', 'w');
 outPTk3 = fopen('outpt3k.dat', 'w');
-out1a = fopen('out1ak.dat', 'w');
-out2 = fopen('out2k.dat', 'w');
+out1a = fopen('ckg_1ak.dat', 'w');
+out2 = fopen('ckg_2k.dat', 'w');
 n_test=load('On_QTest.dat');
 t_test=load('Ot_QTest.dat');
 V_test=load('OV_QTest.dat');
