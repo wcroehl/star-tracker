@@ -2,7 +2,7 @@ function  [q_est, P, dist_index, IFAIL] = q_method(W, V, nstar, dist_index, outP
 % add outPt's and t
 ERR_POS = 0.3;
 
-[nstar, ~] = size(W);
+%[nstar, ~] = size(W);
 dist_index = 0;
 wgt = zeros(nstar,1);
 for i=1:1:nstar-1

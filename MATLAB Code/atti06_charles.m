@@ -290,6 +290,8 @@ while( ccd_time <= TIMELIMIT )
  
     
     if (cnt >= 3)
+        W = zeros(nstar,4);
+        V = zeros(nstar,4);
         for i = 1:numel(crf)
             for j = 1:numel(crf(i).L)
                 V(i,j) = crf(i).L(j);
