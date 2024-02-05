@@ -33,7 +33,7 @@ for i=1:row
    for k=1:column
        if data1(i,k) ~= data2(i,k) 
            fprintf("(%.4f,%.4f)",i,k)
-           error("data is not match")
+           error("data does not match")
        end
    end
 end
