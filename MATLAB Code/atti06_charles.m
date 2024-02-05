@@ -614,7 +614,8 @@ while( ccd_time <= TIMELIMIT )
     end
  	[t_gyro, w, u, gread, gyro_count] = read_gyro(b_est_average, gyro_meas, gyro_count);
     if (gread == 1)
- 	    fprintf(stdout, "No more gyro data at %10.2f while IST data remains\n", ccd_time);
+        fprintf("No more gyro data at %10.2f while IST data remains\n", ccd_time);
+ 	    %fprintf(stdout, "No more gyro data at %10.2f while IST data remains\n", ccd_time);
         if (ccd_time >= TIMELIMIT)
  		    fprintf(outgbias, "%15ld  %15.5f  %15.5f  %15.5f\n", b_est_cnt, b_est_sum/b_est_cnt*3600/PI*180.0);
  			error(msg);
@@ -660,7 +661,8 @@ while( ccd_time <= TIMELIMIT )
         [t_gyro, w, u, gread, gyro_count] = read_gyro(b_est_average, gyro_meas, gyro_count) ;
         
         if (gread == 1)
- 		    fprintf(stdout,"No more gyro data. IST data may exist at %10.2f\n", t_gyro) ;
+            fprintf("No more gyro data. IST data may exist at %10.2f\n", t_gyro) ;
+ 		    %fprintf(stdout,"No more gyro data. IST data may exist at %10.2f\n", t_gyro) ;
             if (ccd_time >= 86400.)
                 fprintf(outgbias, "%15ld  %15.5f  %15.5f  %15.5f\n",  b_est_cnt, b_est_sum/b_est_cnt*3600/pi*180.0) ;
                 error(msg) ;

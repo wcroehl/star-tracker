@@ -139,7 +139,7 @@ while(((abs(ra_diff_BD) < BD_limit*3600+1800.) || (abs(ra_diff_new) < FOV_limit*
     end
     i = i + 1;
     astaragain = 0 ;
-    if( (thisnum - i) < 0 )  %/* break ;  */
+    if( (thisnum - i) < 1 )  %/* break ;  */
         thisnum = thisnum + scell2(N_zone).num_stars ;  
         if (t > t_start && t < t_end) 
             %fprintf(stdout, "Here3? thisnum=%4d\n", thisnum) ;
