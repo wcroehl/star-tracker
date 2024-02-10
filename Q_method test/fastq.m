@@ -21,7 +21,8 @@ end
 % Calculate eigenvector corres. to lambda */
 alpha = lambda^2 - rho^2 + trace(getAdjoint(S)) ;
 beta  = lambda - rho ;
-gamma = (lambda+rho)*alpha - det(S) ; 
+delta=det(S);% test variable
+gamma = (lambda+rho)*alpha - delta; 
 %equations from pg.472 of "Space Dynamics ..." book 
 
 %compute x
