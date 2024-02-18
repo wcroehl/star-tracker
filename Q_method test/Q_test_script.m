@@ -10,6 +10,7 @@ n_test=load('On_QTest.dat');
 t_test=load('Ot_QTest.dat');
 V_test=load('OV_QTest.dat');
 W_test=load('OW_QTest.dat');
+mag_test=load('Omag_QTest.dat');
 
 %set the data for q_method test
 l=length(n_test);
@@ -23,13 +24,16 @@ while S <= l
     [rowV, colV] = find(V_test == ccd_time);
     [rowW, colW] = find(W_test == ccd_time);
     if  nstar == 4
-       V=V_test(rowV:rowV+3,1:4);
+       V=V_test(rowV:rowV+3,1:3);
+       V(rowV:rowV+3,4)=mag_test(S,1:4);
        W=W_test(rowW:rowW+3,1:4);
     elseif nstar == 5
-       V=V_test(rowV:rowV+4,1:4);
+       V=V_test(rowV:rowV+4,1:3);
+       V(rowV:rowV+4,4)=mag_test(S,1:5);
        W=W_test(rowW:rowW+4,1:4);
     else 
-       V=V_test(rowV:rowV+5,1:4);
+       V=V_test(rowV:rowV+5,1:3);
+       V(rowV:rowV+5,4)=mag_test(S,1:6);
        W=W_test(rowW:rowW+5,1:4);
     end
     
