@@ -23,17 +23,26 @@ while S <= l
     nsig=0;
     [rowV, colV] = find(V_test == ccd_time);
     [rowW, colW] = find(W_test == ccd_time);
+    
+    %counter-measure for ccd_time = 0 issue
+    if ccd_time ==0
+        rowV=25;
+        rowW=25;
+        colV=5;
+        colW=5;
+    end
+
     if  nstar == 4
        V=V_test(rowV:rowV+3,1:3);
-       V(rowV:rowV+3,4)=mag_test(S,1:4);
+       V(1:4,4)=mag_test(S,1:4);
        W=W_test(rowW:rowW+3,1:4);
     elseif nstar == 5
        V=V_test(rowV:rowV+4,1:3);
-       V(rowV:rowV+4,4)=mag_test(S,1:5);
+       V(1:5,4)=mag_test(S,1:5);
        W=W_test(rowW:rowW+4,1:4);
     else 
        V=V_test(rowV:rowV+5,1:3);
-       V(rowV:rowV+5,4)=mag_test(S,1:6);
+       V(1:6,4)=mag_test(S,1:6);
        W=W_test(rowW:rowW+5,1:4);
     end
     
