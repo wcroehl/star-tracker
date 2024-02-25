@@ -179,6 +179,10 @@ c_pm_ided = 0;
 
 while( ccd_time <= TIMELIMIT ) 
     d_i = 0.0 ;    
+    if ccd_time == 3671.9
+        ("a");%temporary code
+    end
+
     fprintf(t_diff, '%15.6f  %15.6f  %15.6f\n', ccd_time, t_gyro, ccd_time-t_gyro) ;
     fprintf('%15.6f  %15.6f  %15.6f\n', ccd_time, t_gyro, ccd_time-t_gyro) ;
     q0 = q0/norm(q0);
