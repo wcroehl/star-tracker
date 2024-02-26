@@ -179,9 +179,9 @@ c_pm_ided = 0;
 
 while( ccd_time <= TIMELIMIT ) 
     d_i = 0.0 ;    
-    if ccd_time == 3671.9
-        ("a");%temporary code
-    end
+    %if ccd_time == 3671.9
+        %("a");%temporary code
+    %end
 
     fprintf(t_diff, '%15.6f  %15.6f  %15.6f\n', ccd_time, t_gyro, ccd_time-t_gyro) ;
     fprintf('%15.6f  %15.6f  %15.6f\n', ccd_time, t_gyro, ccd_time-t_gyro) ;
@@ -309,7 +309,8 @@ while( ccd_time <= TIMELIMIT )
         %add fprintf, 07/28/23
         fprintf(outPT1, '%15.6f \n%.15f %.15f %.15f \n%.15f %.15f %.15f \n%.15f %.15f %.15f \n',ccd_time, P_theta);
 
-        [qq, P_theta, d_i, rtn] = q_method(W, V, nstar, d_i, outPT2, outPT3, ccd_time);% added outPT's and ccd_time, 07/28/23
+        %[qq, P_theta, d_i, rtn] = q_method(W, V, nstar, d_i, outPT2, outPT3, ccd_time);% added outPT's and ccd_time, 07/28/23
+        [qq, P_theta, d_i, rtn] = q_method(W, V, cnt, d_i, outPT2, outPT3, ccd_time);% edit q_method input
 
         %qq = quest(W(1:3,:),V(1:3,:), ones(nstar,1)/nstar)
         
