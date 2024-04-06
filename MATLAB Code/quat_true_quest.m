@@ -2,7 +2,8 @@ function quat_true_quest()
 
 qtrue = fopen('true_atti_lrs.dat') ;
 %qesti = fopen('ckg_1a.dat');
-qesti = fopen('QUEST.dat');
+%qesti = fopen('ckg_1ac.dat');
+qesti = fopen('QUEST2.dat');
 
 cat = fscanf(qesti, '%s', 1);
 ca  = fscanf(qesti, '%s %s %s %s', 4);

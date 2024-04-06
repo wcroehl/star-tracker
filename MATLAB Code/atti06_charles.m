@@ -179,9 +179,9 @@ c_pm_ided = 0;
 
 while( ccd_time <= TIMELIMIT ) 
     d_i = 0.0 ;    
-    %if ccd_time == 3671.9
-        %("a");%temporary code
-    %end
+ if ccd_time == 1412.2
+     disp("a");%temporary code
+ end
 
     fprintf(t_diff, '%15.6f  %15.6f  %15.6f\n', ccd_time, t_gyro, ccd_time-t_gyro) ;
     fprintf('%15.6f  %15.6f  %15.6f\n', ccd_time, t_gyro, ccd_time-t_gyro) ;
@@ -555,7 +555,7 @@ while( ccd_time <= TIMELIMIT )
             end
         end
 		%[t_gyro, w, u, gread] = read_gyro(t_gyro, u, b_est_average, w, gyro);
-        [t_gyro, w, u, gread] = read_gyro(b_est_average, gyro_meas, gyro_count);
+        [t_gyro, w, u, gread,gyro_count] = read_gyro(b_est_average, gyro_meas, gyro_count);
 
         if (gread == 1)
 		    fprintf(stdout,"No more gyro data. IST data may exist at %10.2f\n", t_gyro);
