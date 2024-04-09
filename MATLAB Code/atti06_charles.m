@@ -139,8 +139,7 @@ end
 
 % READ GYRO DATA %
 gyro_count = 1;
-[t_gyro, w, u, gread] = read_gyro(b_est_average, gyro_meas, gyro_count);
-gyro_count = gyro_count +1;
+[t_gyro, w, u, gread, gyro_count] = read_gyro(b_est_average, gyro_meas, gyro_count);
 if gread == 1
     fprintf(' No more gyro data\n');
 end
@@ -623,9 +622,11 @@ while( ccd_time <= TIMELIMIT )
  	    %fprintf(stdout, "No more gyro data at %10.2f while IST data remains\n", ccd_time);
         if (ccd_time >= TIMELIMIT)
  		    fprintf(outgbias, "%15ld  %15.5f  %15.5f  %15.5f\n", b_est_cnt, b_est_sum/b_est_cnt*3600/PI*180.0);
- 			error(msg);
+ 			break; %added 4/9/24
+            % error(msg);
         else
-            error(msg) ;
+            break; % added 4/9/24
+            %error(msg) ;
         end
     end
     while (ccd_time - t_gyro) > 0.0001            
@@ -670,9 +671,11 @@ while( ccd_time <= TIMELIMIT )
  		    %fprintf(stdout,"No more gyro data. IST data may exist at %10.2f\n", t_gyro) ;
             if (ccd_time >= 86400.)
                 fprintf(outgbias, "%15ld  %15.5f  %15.5f  %15.5f\n",  b_est_cnt, b_est_sum/b_est_cnt*3600/pi*180.0) ;
-                error(msg) ;
+                break; % added 4/9/24
+                %error(msg) ;
             else
-                error(msg) ;
+                break; % added 4/9/24
+                %error(msg) ;
             end
         end
     end % end of while (ccd_time == t_gyro) */
@@ -719,15 +722,24 @@ fprintf(outdq," %12.5f %9d %12.8f %12.8f %12.8f %12.8f\n",ccd_time, rmsznum,rmsz
 
 fprintf(outgbias, "%15ld  %15.5f  %15.5f  %15.5f\n",b_est_cnt, b_est_sum/b_est_cnt*3600/3.1415*180.0) ;
 
-fprintf(stdout, "End of PROGRAM\n") ; 
+% added 4/9/24
+fprintf("End of PROGRAM\n") ;
+% fprintf(stdout, "End of PROGRAM\n") ; 
 
-fprintf(stdout, "total_mstar = %15.0f  total_ided = %15.0f\n",total_mstar, total_ided) ;
-fprintf(stdout, "c_pm = %8d  c_pm_ided = %8d  c_dm = %8d  c_dm_ided = %8d\n", c_pm, c_pm_ided, c_dm, c_dm_ided) ;
+fprintf("total_mstar = %15.0f  total_ided = %15.0f\n",total_mstar, total_ided) ;
+fprintf("c_pm = %8d  c_pm_ided = %8d  c_dm = %8d  c_dm_ided = %8d\n", c_pm, c_pm_ided, c_dm, c_dm_ided) ;
+% fprintf(stdout, "total_mstar = %15.0f  total_ided = %15.0f\n",total_mstar, total_ided) ;
+% fprintf(stdout, "c_pm = %8d  c_pm_ided = %8d  c_dm = %8d  c_dm_ided = %8d\n", c_pm, c_pm_ided, c_dm, c_dm_ided) ;
 
-t1 = clock() ;
-time(now2);
-wallclock = difftime (now2, now) ;
-fprintf(stderr, "It's now %s \n", ctime(now2)) ;
-fprintf(stderr, "it took %.5f CPU secs.\n",(t1-t0)/CLOCKS_PER_SEC) ;
-fprintf(stderr, "it took %.5f wall clock secs.\n", wallclock) ;
-error(msg);
+%t1 = clock() ;
+%time(now2);
+%wallclock = difftime (now2, now) ;
+% added 4/9/24
+%fprintf("It's now %s \n", ctime(now2)) ;
+%fprintf("it took %.5f CPU secs.\n",(t1-t0)/CLOCKS_PER_SEC) ;
+%fprintf("it took %.5f wall clock secs.\n", wallclock) ;
+% fprintf(stderr, "It's now %s \n", ctime(now2)) ;
+% fprintf(stderr, "it took %.5f CPU secs.\n",(t1-t0)/CLOCKS_PER_SEC) ;
+% fprintf(stderr, "it took %.5f wall clock secs.\n", wallclock) ;
+fclose('all');
+%error(msg);
