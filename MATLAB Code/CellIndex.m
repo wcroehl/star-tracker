@@ -3,7 +3,7 @@ function Index = CellIndex(az, el)
 % %    double    el_dif, az_dif, de ;
 % 
 No = 14 ; % 15 ellinamtion zones 
-% 
+% what is doing here?
 if (el <  90.00 && el >=  83.79)
     cellsu =  1 ;
 elseif (el <  83.79 && el >=  71.38)
@@ -37,6 +37,7 @@ elseif (el < -77.59 && el >= -90.00)
 else
 end
  
+%here related to formula 4.3 and 4.4 but what do that?
 el_dif = (83.79+90.00)/No ;
 az_dif = 360./cellsu ;
 

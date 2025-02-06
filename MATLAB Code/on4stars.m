@@ -6,24 +6,24 @@ tolerance = TOL3 ;
 % 3rd star search
 [jj, sign] = compare2(1, 3, ij, tolerance, m_star, BLI, NEWBLI);  %CHECKED
 if (sign ~= 2) 
-    [NEWBLI, sign] = compare3(2, 3, jj, sign, tolerance, m_star, BLI, NEWBLI);    %CHECKED
+    [NEWBLI, sign] = compare3(2, 3, jj, sign, tolerance, m_star, BLI, NEWBLI);    %if 3rd Match case
 end
-while(sign == 2  && jj < ij) 
+while(sign == 2  && jj < ij) %if not 3rd match case from compare2
     [jj, sign] = compare4(1, 3, jj, ij, m_star, BLI, NEWBLI);  %CHECKING....
     if(sign ~= 2)
-        [NEWBLI, sign] = compare3(1, 2, jj, sign, tolerance, m_star, BLI, NEWBLI);
+        [NEWBLI, sign] = compare3(1, 2, jj, sign, tolerance, m_star, BLI, NEWBLI); %if 3rd Match case
     end
 end
 
 if(sign ~= 2)  % 3rd star matched, 4th star search
     [jj, sign] = compare2(1, 4, ij, tolerance, m_star, BLI, NEWBLI);
     if (sign ~= 2)
-        [NEWBLI, sign] = compare3(2, 4, jj, sign, tolerance, m_star, BLI, NEWBLI);
+        [NEWBLI, sign] = compare3(2, 4, jj, sign, tolerance, m_star, BLI, NEWBLI);%if 4th Match case
     end
-    while(sign == 2  && jj < ij)
+    while(sign == 2  && jj < ij) %if not 4th match case from compare2
         [jj, sign] = compare4(1, 4, jj, ij, m_star, BLI, NEWBLI);
         if(sign ~= 2)
-            [NEWBLI, sign] = compare3(2, 4, jj, sign, tolerance, m_star, BLI, NEWBLI);
+            [NEWBLI, sign] = compare3(2, 4, jj, sign, tolerance, m_star, BLI, NEWBLI);%if 4th Match case
         end
     end
     if(sign ~= 2) % 3rd, 4th star matched 
@@ -51,7 +51,8 @@ if (sign == 2)  % 3rd star not matched, 4th star search
     end
 end
 
-if (esignal == 0)
+if (esignal == 0) %If 1st and 2nd star angle match but mag for first and secaond and other stars not match
+     %flip first and secaond star information in NEWBLI
     NBLI.L = NEWBLI(1).L;
     NBLI.num = NEWBLI(1).num ;
     NBLI.mag   = NEWBLI(1).mag ;
@@ -71,6 +72,7 @@ if (esignal == 0)
     return ;
 end
 
+%If 1st and 2nd star angle and mag match but other stars not match or other case
 if (esignal <= 2)
     esignal = 3 ; 
 end

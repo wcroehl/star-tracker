@@ -2,18 +2,18 @@ function [NEWBLI, jj, esignal] = on6stars(ij, esignal, m_star, BLI, NEWBLI)
 TOL6 =     50./3600.*3.141592653/180.0 ;     % 50 %
 tolerance = TOL6 ;
 [jj, sign] = compare2(1, 3, ij, tolerance, m_star, BLI, NEWBLI); % 3rd star searching 
-if(sign ~= 2); [NEWBLI, sign] = compare3(2, 4, jj, tolerance, m_star, BLI, NEWBLI); end
-while(sign == 2  && jj < ij) 
+if(sign ~= 2); [NEWBLI, sign] = compare3(2, 4, jj, tolerance, m_star, BLI, NEWBLI);  end %if 3rd Match case
+while(sign == 2  && jj < ij) %if not 3rd match case from compare2 
     [jj, sign] = compare4(1, 3, jj, ij, m_star, BLI, NEWBLI);
-    if(sign ~= 2); [NEWBLI, sign] = compare3(2, 3, jj, tolerance, m_star, BLI, NEWBLI);   end
+    if(sign ~= 2); [NEWBLI, sign] = compare3(2, 3, jj, tolerance, m_star, BLI, NEWBLI);   end %if 3rd Match case 
 end
 
 if (sign ~= 2) % 3rd star matched, 4th star search 
-    [jj, sign] = compare2(1, 4, ij, tolerance, m_star, BLI, NEWBLI);
-    if(sign ~= 2); [NEWBLI, sign] = compare3(2, 4, jj, tolerance, m_star, BLI, NEWBLI); end
-    while(sign == 2  && jj < ij)
+    [jj, sign] = compare2(1, 4, ij, tolerance, m_star, BLI, NEWBLI);% 4th star searching
+    if(sign ~= 2); [NEWBLI, sign] = compare3(2, 4, jj, tolerance, m_star, BLI, NEWBLI); end %if 4th Match case
+    while(sign == 2  && jj < ij)  %if not 4th match case from compare2
         [jj, sign] = compare4(1, 4, jj, ij, m_star, BLI, NEWBLI);
-        if (sign ~= 2); [NEWBLI, sign] = compare3(2, 4, jj, tolerance, m_star, BLI, NEWBLI); end
+        if (sign ~= 2); [NEWBLI, sign] = compare3(2, 4, jj, tolerance, m_star, BLI, NEWBLI); end %if 4th Match case
     end
     if (sign ~= 2) % 3rd, 4th matched, 5th star search 
         [jj, sign] = compare2(1, 4, ij, tolerance, m_star, BLI, NEWBLI);
@@ -160,8 +160,8 @@ if(sign == 2)   % 3rd not matched, 4th star search
     end
 end
       
-if (esignal == 0) 
-    
+if (esignal == 0) %If 1st and 2nd star angle match but mag for first and secaond and other stars not match
+      %flip first and secaond star information in NEWBLI
       for k=1:3 
          NBLI.L(k) = NEWBLI(1).L(k) ;
       end
@@ -187,7 +187,8 @@ if (esignal == 0)
     return ;
 end
 
-if (esignal <= 2)
+%If 1st and 2nd star angle and mag match but other stars not match or other case
+if (esignal <= 2) 
     esignal = 3 ; 
     return ;
 end

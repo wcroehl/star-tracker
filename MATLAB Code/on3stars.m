@@ -6,16 +6,16 @@ dist_tol  = 360/3600*3.141592653/180.0 ;
 
 [jj, sign] = compare2(1, 3, ij, tolerance, m_star, BLI, NEWBLI);% 3rd star search 
 if(sign ~= 2)
-    [NEWBLI, sign] = compare3(2, 3, jj, sign, tolerance, m_star, BLI, NEWBLI);
+    [NEWBLI, sign] = compare3(2, 3, jj, sign, tolerance, m_star, BLI, NEWBLI); %if 3rd Match case
 end
-while(sign == 2  && jj < ij)
+while(sign == 2  && jj < ij) %If not 3rd match from compare2
     [jj, sign] = compare4(1, 3, jj, ij, m_star, BLI, NEWBLI);
     if(sign ~= 2) 
-        [NEWBLI, sign] = compare3(2, 3, jj, sign, tolerance, m_star, BLI, NEWBLI);
+        [NEWBLI, sign] = compare3(2, 3, jj, sign, tolerance, m_star, BLI, NEWBLI); %if 3rd Match case
     end
 end
 if(sign ~= 2)
-    ambi = sym_test(dist_tol, NEWBLI);
+    ambi = sym_test(dist_tol, NEWBLI);% check whteher stars do not create a symetric triangle
     if (ambi == 0)
         esignal = 7; % 3 stars (all)  
     else

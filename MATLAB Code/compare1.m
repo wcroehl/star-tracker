@@ -5,11 +5,11 @@ tolerance = TOL6 ; % the tol. of difference in interangles between cat. and mesu
 
 meas_ang =  acos( m_star(n).L(1)*m_star(m).L(1) + ...
                   m_star(n).L(2)*m_star(m).L(2) + ...
-                  m_star(n).L(3)*m_star(m).L(3) )*180.0/pi*3600.0; %the cosine of interangle 
+                  m_star(n).L(3)*m_star(m).L(3) )*180.0/pi*3600.0; %the cosine of interangle for measurement 
               
 for i=ii:ij
     if(i > ii) 
-        ji = i+1   ;
+        ji = i+1;%set new limit for loop?
     else
         ji = jj+1 ;
     end
@@ -21,11 +21,11 @@ for i=ii:ij
        cata_ang = acos( BLI(i).L(1)*BLI(j).L(1) + ...
                         BLI(i).L(2)*BLI(j).L(2) + ...
                         BLI(i).L(3)*BLI(j).L(3) )*180.0/pi*3600.0; 
-                                    % of catalog star pairs
+                                    % of catalog star pairs angles
        diff = abs(meas_ang - cata_ang) ; % compare the interangles */
 
-       if(diff < tolerance*180.0/pi*3600.0 )
-           [NEWBLI, psignal] = mag_test(n, m, i, j, m_star, BLI, NEWBLI);      
+       if(diff < tolerance*180.0/pi*3600.0 ) %if angles match
+           [NEWBLI, psignal] = mag_test(n, m, i, j, m_star, BLI, NEWBLI); %mag test    
            if(psignal <= 2)
                 ii = i ;
                 jj = j ; 

@@ -9,20 +9,21 @@ function [t , id_count, m_star, BLI, NEWBLI, return_value, b_star, crf, nstar] =
           0.0,    1.0,    0.0
           0.0,    0.0,    1.0 ] ; 
 
-NUMs = 6;
-ij = 0 ;
+NUMs = 6; %NEWBLI Initial Set Value
+ij = 0 ; %the total # of candidate stars from star catalog 
 rtn = 0 ;
 id_count = 0 ;
 
-Ap = q_to_A(q0); %CHECKED
+Ap = q_to_A(q0); %CHECKED (Convert to initial q to Direction Cosines Matrix (DCM))
 
-bore_iner = Ap'*bore_body;
+bore_iner = Ap'*bore_body;%esitmete  Bore sight direction (BD) from q0
 
-est_del = asin(bore_iner(3))/pi*180.0 ;              
+%estimate declination and azimuth from BD vector? 
+est_del = asin(bore_iner(3))/pi*180.0 ;            
 est_alp = atan2(bore_iner(2), bore_iner(1))/pi*180.0;
 if(bore_iner(2) < 0.0) est_alp = est_alp + 360.0 ; end
 
-nb_cell = CellIndex(est_alp, est_del) ; % cell num. associated with BD  %CHECKED
+nb_cell = CellIndex(est_alp, est_del) ; % find cell num. associated with BD  %CHECKED
                                      % -1 added since array start with zero 
                                      
 if (nb_cell == -1)
@@ -33,14 +34,15 @@ end
 BD = cartesian(est_alp*pi/180, est_del*pi/180);  %CHECKED
 for i=1:1:adjcell(nb_cell).num_adj
     cellnum = adjcell(nb_cell).cell_num(i)-1; % read adjacent cell # 
-    for j=1:1:scell(cellnum+1).num_stars % read all stars in the cell 
+    for j=1:1:scell(cellnum+1).num_stars % read all stars in the cell
         starnum = scell(cellnum+1).star_num(j); %catalog 
         al_rad = stars(starnum).ra  / 180 * pi ;  % RA  in radian 
         de_rad = stars(starnum).dec / 180 * pi ;  % Dec in radian 
-        L = cartesian(al_rad,de_rad) ;  % get star pos. in cartesian 
+        L = cartesian(al_rad,de_rad) ;  % get star pos.(unit vec) in cartesian 
         
-        BLI(ij+1).IBL = BD'*L;
+        BLI(ij+1).IBL = BD'*L;%Comute the interangles (cos)
         
+        %save the data to BLI
         % dot product of BD and L --> the angle of cosine 
         BLI(ij+1).starnum = starnum+1 ;  % add 1 from array number
         BLI(ij+1).L = L;
@@ -49,7 +51,7 @@ for i=1:1:adjcell(nb_cell).num_adj
     end
 end
 
-LBLI=length(BLI); %add code from lines 49 to 52, 7/14/23
+LBLI=length(BLI); %add code from lines 49 to 52, 7/14/23 (%adjustment for starnum)
 for i=1:LBLI
     BLI(i).starnum = BLI(i).starnum-1;
 end
@@ -62,12 +64,12 @@ esignal = 3;
 k2 = 0; 
 while (esignal == 3 && k < nro)
     for i=1:1:NUMs
-        NEWBLI(i).mag = 0.0 ;
+        NEWBLI(i).mag = 0.0 ; %Create NEW BLI Initial Value
         NEWBLI(i).id = -999 ;
         NEWBLI(i).num = 0 ;  
     end
     
-    [NEWBLI, ii, jj, esignal] = compare0(1, 2, ij, m_star, BLI, NEWBLI);  %CHECKED
+    [NEWBLI, ii, jj, esignal] = compare0(1, 2, ij, m_star, BLI, NEWBLI);  %(Compute the Distance, Compare them, A Match, Magnitude oK?)
     
     %add fprintf, 07/28/23
     fprintf(outes1, '%15.6f %15.6f %15.6f %15.6f \n',t, ii,jj,esignal);
@@ -76,13 +78,13 @@ while (esignal == 3 && k < nro)
     j0 = jj ;
     
     if (esignal == 3)
-        [x, y, xmag, m_star] = obs_ang(nstar, x, y, xmag, m_star);
+        [x, y, xmag, m_star] = obs_ang(nstar, x, y, xmag, m_star); % If not match in first compare 0, do "More Catlog Pair" (move to the next line)
         k = k+1;
     end
 end
 if (esignal < 3)
     while (esignal < 3) 
-        switch(nstar)
+        switch(nstar) %do Comfirmed with Another Star, More Star, and Traingle Check
             case 6  
                 [NEWBLI, jj, esignal] = on6stars(ij, esignal, m_star, BLI, NEWBLI);
                 %break ;
@@ -103,26 +105,26 @@ if (esignal < 3)
             ii = j0 ;
             jj = i0 ;
         end
-        while (esignal == 3 & k < nro && i0 < ij && j0 < ij)
+        while (esignal == 3 & k < nro && i0 < ij && j0 < ij) %if more third star cannot be recognized, although first and second are found
             ii = i0 ;
             jj = j0 ; 
             for i=1:1:NUMs
-                NEWBLI(i).mag = 0.0 ;
+                NEWBLI(i).mag = 0.0 ; %Initizlize NEWBLI
                 NEWBLI(i).id = -999 ;
                 NEWBLI(i).num = 0 ;
             end
-            [NEWBLI, ii, jj, esignal] = compare1(1, 2, ii, jj, ij, m_star, BLI, NEWBLI);
+            [NEWBLI, ii, jj, esignal] = compare1(1, 2, ii, jj, ij, m_star, BLI, NEWBLI); %try to find other 1st and 2nd stars except for initial Ones 
             
-            while (esignal == 3 && k < nro && ii == ij && jj == ij)
-                [x, y, xmag, m_star] = obs_ang(nstar, x, y, xmag, m_star);
+            while (esignal == 3 && k < nro && ii == ij && jj == ij) %find anohter match if ij is equal to ii and jj (since compare 1 cannot search for it and move catalog to next)
+                [x, y, xmag, m_star] = obs_ang(nstar, x, y, xmag, m_star); 
                 k = k+1;
                 [NEWBLI, ii, jj, esignal] = compare0(1, 2, ij, m_star, BLI, NEWBLI);
             end
         end
         %  More search for base stars when nstar = 6 
         if (esignal == 3 && k == nro && nstar == 6 && k2 == 0 && ii == ij && jj == ij) 
-            [x, y, xmag, m_star] = rearrange(nstar, x, y, xmag, m_star); % Where does it come from?, 7/15/23
-            k2=2 ; k=1 ;
+            [x, y, xmag, m_star] = rearrange(nstar, x, y, xmag, m_star); % Where does it come from?
+            k2=2 ; k=1 ; %what meaning for K2?
         end
         while (esignal == 3 && k < nro && nstar == 6 && k2 > 1 && ii == ij && jj == ij)
             [x, y, xmag, m_star] = obs_ang(nstar, x, y, xmag, m_star);
